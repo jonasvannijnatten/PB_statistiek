@@ -1,0 +1,5 @@
+"0","(extremeRows = which((data.bad$score < minScore | data.bad$score > maxScore)))"
+"1","[1]"
+"1"," 9"
+"1","
+"

@@ -1,0 +1,441 @@
+---
+title: "R - Datavisualisatie"
+author: "J.J. van Nijnatten"
+output:
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      toc_collapsed: true 
+    css: styles.css
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: '2'
+  word_document:
+    toc: yes
+    toc_depth: '2'
+header-includes:
+- \usepackage{geometry}
+- \geometry{a4paper, portrait, margin=.75in}
+---
+
+```{css, echo=FALSE}
+body .main-container{
+  max-width: 2500px;
+  width: 90%;
+  margin: auto;
+ padding: 1em;
+ line-height: 20px ; 
+}   
+
+body {
+  max-width: 2500px;
+  width: 90%;
+  margin: auto;
+ padding: 1em;
+ line-height: 20px ; 
+}   
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+contact: J.J.vanNijnatten@uva.nl
+
+broncode: https://github.com/jonasvannijnatten/R_Data_Visualization  
+
+laatste update: `r format.Date(Sys.Date(), "%d-%m-%Y")`
+
+***
+
+\newpage
+
+#   Software  
+## Versies  
+software versies gebruikt voor deze handleiding:  
+ - `r R.Version()$version.string`  
+ - ggplot2 versie: `r packageVersion("ggplot2")`, `r packageDate("ggplot2")`  
+ - Hmisc   versie: `r packageVersion("Hmisc")`, `r packageDate("Hmisc")`  
+ - knitr   versie: `r packageVersion("knitr")`, `r packageDate("knitr")`  
+
+
+##  Installatie
+Benodigde packages downloaden & installeren:
+```{r, eval = FALSE, echo=TRUE, results='hide', message=FALSE}
+install.packages(pkgs="ggplot2",  )
+install.packages(pkgs="Hmisc",    )
+install.packages(pkgs="knitr",    )
+install.packages(pkgs="kableExtra")
+```
+Benodigde packages activeren:
+```{r, eval=TRUE, message=FALSE}
+library(package=Hmisc)
+library(package=ggplot2)
+library(package=knitr)
+library(package=kableExtra)
+```
+
+***
+
+\newpage
+
+#   Opbouw van figuren met GGplot2 package
+
+De figuren worden met het GGPlot2 package opgebouwd volgens een bepaalde *grammatica van figuren* die figuren opdeelt in meerdere *lagen*.
+De essentiele lagen zijn *Data*, *Aesthetics* en *Geometries*.  
+- **Data**: Dit zijn de datapunten die je wilt gaan visualizeren  
+- **Aes**: Dit bepaald welke data met welke assen, subplots, kleuren of symbolen wordt weergegeven.  
+- **Geom**: Dit bepaald in welke vorm de data wordt weergegeven (lijnplot, barplot, boxplot etc.)  
+
+De eerste stap is het definieren van de *Data* en *Aesthetics* met de functie ggplot() en aes().
+```{r, eval=TRUE}
+myData = data.frame(varX=rnorm(10,10,2), varY=rnorm(10,35,5))
+```
+```{r, eval=FALSE}
+ggplot(myData, aes(x=varX, y=varY))
+```
+
+Dit opent een nieuw figuur waarin de data uit *myData* komt, en *varX* op de x-as zal komen, en *varY* op de y-as zal komen. Er is echter nog niets geplot omdat we nog niet hebben aangegeven hoe de plot eruit moet komen te zien.
+
+De volgende stap is het toevoegen van *geometries* met behulp van een van de *geom_...()* functies, bijv. *geom_point()*.
+```{r, eval=TRUE}
+ggplot(myData, aes(x=varX, y=varY)) + geom_point(col="blue", size=2)
+```
+
+Dit figuur kan worden uitgebreid door er meer *Geometries* aan toe te voegen zoald bijvoorbeel lijnen (*geom_line()*).
+Daarnaast zijn de eigenschappen van de verschillende *geoms* individueel aan te passen, zoals bijvoorbeeld kleur een grootte. De volgorde waarin de *geoms* in de code staan is de volgorde waarin ze worden getekend, met de laatste als bovenste laag. In dit figuur zijn bijvoorbeeld de lijnen over de punten heen getekend. Door de volgorde van *geom_point()* en *geom_line()* om te draaien worden de punten over de lijn heen getekend.
+
+
+Voor een mooi overzicht en toelichting van alle mogelijkheden van het ggplot2 package zie:  
+https://ggplot2.tidyverse.org/reference/
+```{r, eval=TRUE}
+ggplot(myData, aes(x=varX, y=varY)) + geom_point(col="blue", size=4) + geom_line(col="green", size=1.2)
+```
+
+Uitleg van de *grammatica van figuren*:  
+ <iframe width="500" height="300"
+src="https://www.youtube.com/embed/uiTc55clwuA" data-external= "1">
+</iframe>
+
+Uitleg van de lagen waaruit een figuur is opgebouwd:   
+ <iframe width="500" height="300"
+src="https://www.youtube.com/embed/PiY9hwOkL8U" data-external= "1">
+</iframe>
+
+
+***
+
+\newpage
+
+# Voorbeelden  
+
+##  T-test
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span></summary>
+```{r}
+# generate data
+N = 40
+ID = 1:N
+group1 = rnorm(n = N, mean = 25, sd = 6.5)
+group2 = rnorm(n = N, mean = 35, sd = 6.5)
+data.wide = data.frame(ID,group1, group2)
+
+# reshape data
+data.long = reshape(data = data.wide,
+                    direction = "long"
+                    , varying = c("group1", "group2")
+                    , v.names = "score"
+                    , times   = c('pre', 'post')
+                    , idvar = 'ID'
+                    , new.row.names = NULL
+                    )
+# set variable time as a factor
+data.long$time = factor(data.long$time, levels = c("pre","post"))
+
+```
+</details>
+
+```{r,echo=FALSE}
+kable(data.long[c(1:5,41:45),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+```{r}
+# plot means and standard deviations
+ggplot(data.long, aes(x=time, y=score, fill=time) ) +
+  # plot de gemiddeldes voor iedere conditie als bargraph
+  stat_summary   ( geom = "bar", fun    = "mean" ) +
+  # voeg errobars toe aan de bargraph
+  geom_errorbar( stat = "summary", fun.data = "mean_sdl", fun.args = 1, width = 0.3 ) +
+  # plot alle individuele datapunten
+  geom_point   ( position=position_jitter(width = .2, seed=1) )
+```
+
+
+Om de standaardfout (standard error) weer te geven i.p.v. de standaardafwijking (standard deviation) kan bij het argument *fun.data* de functie *"mean_sdl"* vervangen worden met *"mean_se"*. Om de gebruikelijke 2 maal de standaardfout te plotten (of 1.96 om nauwkeuriger te zijn) om het 95% betrouwbaarheidsinterval weer te geven moet bij het argument *fun.arg = 1* worden vervangen door *fun.arg = 2*.
+
+```{r, eval=FALSE}
+  geom_errorbar( stat = "summary", fun.data = "mean_se", fun.args = 2, width = 0.3 )
+```
+\newpage  
+Wanneer de data niet normaal verdeeld is dan zijn de gemiddeldes en standaarddeviaties of standdaardfouten geen goede representiatie van de data. In dat geval is het gebruikelijker om de data in een boxplot weer te geven met mediaan en quantielafstanden.
+```{r}
+ggplot(data.long, aes(x=time, y=score, fill=time) ) +  
+  # Plot een boxplot, outlier.shape = NA onderdrukt het plotten van de outliers
+  # Dit doen we omdat geom_points() alle datapunten al plot)
+  geom_boxplot(outlier.shape = NA) +                          
+  # voegt 'errorbars' aan het einde van de whiskers toe
+  stat_boxplot(geom="errorbar", width=.3) +
+  # plot alle individuele datapunten
+  geom_point(position=position_jitter(width=.2,seed = 1))
+```
+
+
+***
+\newpage
+
+##  Correlatie & Regressie
+Wanneer je de relatie tussen twee continue variabelen onderzoekt kun je een correlatie of lineaire regressie analyse gebruiken. Een correlatietoets geeft aan of beide variabelen samenhangen, terwijl een regressie een predictiemodel toetst. In de pratkijk geven beide statistisch gezien hetzelde resultaat maar verschillen ze in de hypothese die je toetst en de conclusies die je kunt trekken.
+Bij een correlatie is het daarom gebruikelijk om de correlatiecoefficient *r* te rapporteren, terwijl het bij een regressie gebruikelijk is om de regressie coefficienten (intercept & helling; $alpha$ en $beta$) te rapporteren in de vorm van het predictiemodel.
+
+<details><summary><span style="color:dodgerBlue">Toon code om data te genereren </span></summary>
+```{r}
+# generate data
+set.seed(05)
+nrobs = 100
+experience = rnorm(n = nrobs, mean = 15, sd = 3)
+salary     = 10000 + ( 5 * experience ) + rnorm(n = nrobs, mean = 0, sd = 100)
+data.long = data.frame(experience, salary)
+# calculate correlation coefficient r
+corr_coef = cor(x = data.long$experience, y = data.long$salary)
+
+```
+</details>   
+
+```{r,echo=FALSE}
+kable(data.long[1:5,], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+Correlatieplot:
+```{r}
+ggplot(data = data.long, aes(x = experience, y = salary)) +
+  geom_point() +  # plot the datapoints
+  # add a linear regression line with 95% confidence interval
+  geom_smooth(method='lm', formula = 'y ~ x', se=TRUE, level=0.95) +
+  # plot the correlation coefficient into to figure
+  geom_text(x = 9, y = 10275, color="blue",
+            label = paste("r =", as.character(round(corr_coef,3))))
+```
+\newpage  
+Regressieplot:
+```{r}
+# apply linear regression and obtain regression coefficients
+lin_mod = summary(lm(data = data.long, formula = salary~experience))
+alpha = round(lin_mod$coefficients[1],2)
+beta  = round(lin_mod$coefficients[2],2)
+corr_coef = round(sqrt(lin_mod$r.squared),3)
+
+# create figure  
+ggplot(data = data.long, aes(x = experience, y = salary)) +
+  geom_point() +  # plot the datapoints
+  # add a linear regression line with 95% confidence interval
+  geom_smooth(method='lm', formula = 'y ~ x', se=TRUE, level=0.95) +
+  # plot the correlation coefficient into to figure
+  geom_text(x = 12, y = 10275, color="blue",
+            label = paste("salary = ", alpha, "+", beta,"*","experience, r =",corr_coef))
+```
+
+***  
+\newpage
+
+##  One-way independent samples ANOVA
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span></summary>
+```{r, echo=TRUE}
+set.seed(05)   # set seed
+nrofconds = 3  # set number of conditions
+nrofsubs  = 20 # set number of subjects
+subj = as.factor(1:(nrofsubs*nrofconds))      # create array with subject IDs
+cond = as.factor(rep(LETTERS[1:nrofconds],each=nrofsubs))   # create array with condition values
+score = as.vector( replicate(
+          nrofconds , rnorm(n = nrofsubs, mean = sample(8,1)+10 , sd = sample(5,1) )
+        ) )                                     # create array with measurement values
+data.long = data.frame(subj, cond, score);      # combine arrays into a data.frame
+rm(list=setdiff(ls(), c("data.long", "nrofsubs","nrofconds"))) # delete arrays
+
+```   
+</details>  
+
+```{r,echo=FALSE}
+kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+```{r}
+ggplot(data.long, aes(x=cond, y=score, fill=cond) ) +
+  stat_summary ( geom = "bar", fun    = "mean" , position = "dodge")  +
+  geom_errorbar( stat = "summary", fun.data = "mean_se", fun.args = 2, width = 0.3 ) +
+  geom_point   ( position=position_jitter(width = .1) )
+```
+
+***  
+\newpage
+
+##  Factorial independent samples ANOVA
+
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren</span></summary>
+```{r, echo=TRUE}
+set.seed(01)   # set seed
+nrofcondsf1 = 3  # set number of conditions for factor 1
+nrofcondsf2 = 2  # set number of conditions for factor 2
+nrofsubs    = nrofcondsf1*nrofcondsf2*30 # set number of subjects per condition
+subj = as.factor(1:(nrofsubs))      # create array with subject IDs
+# create array witht treatment conditions
+treatment = as.factor(rep(LETTERS[1:nrofcondsf1],each=nrofsubs/nrofcondsf1))   
+# create array with control / experimental
+control   = as.factor(rep(c("control","experimental"),times=nrofsubs/nrofcondsf2))   
+# create array with measurement values
+score = as.vector( replicate(nrofcondsf1, replicate (
+          nrofcondsf2 , rnorm(
+            n = (nrofsubs/(nrofcondsf1*nrofcondsf2)),
+            mean = 0 , sd = sample(5,1) ) + sample(8,1)+10
+        ) ) )                             
+# combine arrays into a data.frame
+data.long = data.frame(subj, score, treatment, control);      
+# delete unnecessary arrays
+rm(list=c("control","nrofcondsf1","nrofcondsf2","nrofsubs","score","subj","treatment"))
+
+```   
+</details>     
+
+```{r,echo=FALSE}
+kable(data.long[c(1:2,61:62,121:122),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+```{r}
+ggplot(data.long, aes(x=treatment, y=score, fill=control) ) +
+  stat_summary ( geom = "bar", fun    = "mean" , position = "dodge")  +
+  geom_errorbar( stat = "summary", fun.data = "mean_se", fun.args = 2, width = 0.3,
+                 position = position_dodge(width=.9) ) +
+  geom_point  ( position = position_jitterdodge(jitter.width = .2) )
+```
+\newpage
+
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span></summary>
+```{r, echo=TRUE}
+set.seed(01)   # set seed
+nrofcondsf1 = 3  # set number of conditions for factor 1
+nrofcondsf2 = 2  # set number of conditions for factor 2
+nrofsubs    = nrofcondsf1*nrofcondsf2*20 # set number of subjects per condition
+subj = as.factor(1:(nrofsubs))      # create array with subject IDs
+# create array witht treatment conditions
+treatment = as.factor(rep(LETTERS[1:nrofcondsf1],each=nrofsubs/nrofcondsf1))   
+# create array with control / experimental
+control   = as.factor(rep(c("control","experimental"),times=nrofsubs/nrofcondsf2))   
+# create array with measurement values
+score = as.vector( replicate(nrofcondsf1, replicate (
+          nrofcondsf2 , rchisq(
+            n = (nrofsubs/(nrofcondsf1*nrofcondsf2)),
+            df = 3)  
+        )+  sample(14,1)+10  ) )                             
+# combine arrays into a data.frame
+data.long = data.frame(subj, score, treatment, control);      
+# delete unnecessary arrays
+rm(list=c("control","nrofcondsf1","nrofcondsf2","nrofsubs","score","subj","treatment"))
+```
+</details>   
+
+```{r}
+ggplot(data.long, aes(x=treatment, y=score, fill=control) ) +
+  geom_boxplot (outlier.shape = NA) +
+  stat_boxplot(geom="errorbar", width=.3, position = position_dodge(.75) ) +
+  geom_point  ( position = position_jitterdodge(jitter.width = .2) )
+```
+
+
+***  
+\newpage  
+
+##  One-way repeated measures ANOVA
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span></summary>
+```{r, echo=TRUE}
+# Generate dataset
+set.seed(01)   # set seed
+nrofsubs  = 20 # set number of subjects
+nrofconds = 3  # set number of conditions
+subj = as.factor(rep(1:nrofsubs,nrofconds))      # create array with subject IDs
+cond = as.factor(rep(LETTERS[1:nrofconds],each=nrofsubs))   # create array with condition values
+score = as.vector( replicate(
+          nrofconds , rnorm(n = nrofsubs, mean = sample(8,1)+10 , sd = sample(5,1) )
+        ) )                                     # create array with measurement values
+data.long = data.frame(subj, cond, score);      # combine arrays into a data.frame
+rm(list=c("cond","nrofconds","nrofsubs","score","subj")) # delete arrays
+```
+</details>  
+
+```{r,echo=FALSE}
+kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+```{r}
+ggplot(data.long, aes(x=cond, y=score, group=1, colour=subj)) +
+  geom_point   () +
+  geom_line    ( linetype= "dashed", aes(group=subj) ) +
+  stat_summary ( geom = "line",  fun    = "mean" ,    size=2, colour="black", linetype="solid") +
+  stat_summary ( geom = "point", fun    = "mean" ,    size=2, colour="black") +
+  geom_errorbar( stat="summary", fun.data="mean_se",  size=1, fun.args = 2, width = 0.3 ) +
+  guides(color = "none")
+```  
+
+***  
+
+\newpage
+
+##  Factorial repeated measures ANOVA
+
+
+<details><summary><span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span></summary>
+```{r, echo=TRUE}
+set.seed(02)  # set seed
+nrofcondsf1 = 3  # set number of conditions for factor 1
+nrofcondsf2 = 2  # set number of conditions for factor 2
+nrofsubs    = 10 # set number of subjects
+# create array with subject IDs
+subj = as.factor(rep(1:(nrofsubs),times=nrofcondsf1*nrofcondsf2))    
+# create array witht treatment conditions
+treatment = as.factor(rep(LETTERS[1:nrofcondsf1],each=nrofsubs*nrofcondsf2))   
+# create array with control / experimental
+control   = as.factor(
+  rep(rep(c("control","experimental"),each=nrofsubs),times=nrofcondsf1))  
+# create array with measurement values
+score = as.vector( replicate(nrofcondsf1,        
+                   replicate(nrofcondsf2,    
+                   rnorm(n = (nrofsubs), mean = sample(14,1)+10 , sd = sample(5,1)        
+                                   ) ) ) )                  
+# combine arrays into a data.frame
+data.long = data.frame(subj, score, treatment, control);      
+# delete arrays
+rm(list=c("control","nrofcondsf1","nrofcondsf2","nrofsubs", "score", "subj", "treatment"))
+```
+</details>   
+
+```{r,echo=FALSE}
+kable(data.long[c(1:2,11:12,21:22,31:32,41:42,52:52),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+```{r}
+ggplot(data.long, aes(x=treatment, y=score, group=control, colour=control)) +
+  geom_point   (size=1)  +
+  geom_line    (linetype="dashed" ,aes(group=interaction(subj,control)), alpha=.5) + 
+  stat_summary ( geom="line", fun = "mean", size=1.5) +
+  stat_summary ( geom="point", fun = "mean", size=2) +
+  geom_errorbar( stat="summary", fun.data="mean_se", size=1, fun.args = 2, width = 0.3) 
+```
+
+***  
