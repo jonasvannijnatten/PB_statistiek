@@ -41,7 +41,7 @@ out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 
 contact: J.J.vanNijnatten@uva.nl
 
-broncode: https://github.com/jonasvannijnatten/R_Data_wrangling  
+broncode: https://github.com/jonasvannijnatten/PB_statistiek
 
 laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
 
