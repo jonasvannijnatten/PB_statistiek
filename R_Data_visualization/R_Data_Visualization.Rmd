@@ -46,7 +46,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 contact: J.J.vanNijnatten@uva.nl
 
-broncode: https://github.com/jonasvannijnatten/R_Data_Visualization  
+broncode: https://github.com/jonasvannijnatten/PB_statistiek
 
 laatste update: `r format.Date(Sys.Date(), "%d-%m-%Y")`
 
