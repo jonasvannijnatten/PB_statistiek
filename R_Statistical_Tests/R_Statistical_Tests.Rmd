@@ -1,7 +1,6 @@
 ---
 title: "Overview statistic tests PB"  
 author: "Jonas van Nijnatten"
-date: "21 november 2018"
 output:
   html_document:
     fig_caption: yes
@@ -19,6 +18,30 @@ header-includes:
 - \geometry{a4paper, portrait, margin=.75in}
 ---
 
+
+```{css, echo=FALSE}
+body .main-container{
+  max-width: 2500px;
+  width: 90%;
+  margin: 0;
+ padding: 1em;
+ line-height: 20px ; 
+}   
+
+body {
+  max-width: 2500px;
+  width: 90%;
+  margin: 0;
+ padding: 1em;
+ line-height: 20px ; 
+}   
+
+#TOC {
+  max-width: 300px;
+  width: 30%;
+}
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -26,7 +49,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 contact: J.J.vanNijnatten@uva.nl
 
-source code: https://github.com/jonasvannijnatten/R_Data_Visualization  
+source code: https://github.com/jonasvannijnatten/PB_statistiek
+
+laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
 
 ***
 
@@ -40,18 +65,11 @@ software versions used for this tutorial:
  - ez-package version:  `r packageVersion("ez")` (`r packageDate("ez")`)
  
 ##  Installation
-Download & install the required packages:
-```{r, eval = FALSE, echo=TRUE, results='hide', message=FALSE}
-install.packages(pkgs="kableExtra",   repos="https://www.freestatistics.org/cran/")
-install.packages(pkgs="car",   repos="https://www.freestatistics.org/cran/") 
-install.packages(pkgs="ez",    repos="https://www.freestatistics.org/cran/")
-```
-
-Activate required packages:
-```{r, eval=TRUE, message=FALSE}
-library(package=kableExtra)
-library(package=car)
-library(package=ez)
+Install & activate the required packages:
+```{r, eval = TRUE, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
+reqPacks = c("markdown","knitr","kableExtra","car","ez","afex")
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(reqPacks, character.only = TRUE)
 ```
 
 ***
@@ -265,18 +283,45 @@ Test equality of variances
 leveneTest(y = data.long$score, group = data.long$condition)
 ```
 
-## Running the test
+## Running the test {.tabset}
 
-**ANOVA*** with the aov method
+### parametric methods {.tabset}
+
+
+#### using *ezANOVA()*
+***ANOVA*** using the ezANOVA method
+```{r, message=FALSE}
+ezModel = ezANOVA(data = data.long, dv = score, between = condition, wid = subj)
+ezModel$ANOVA
+```
+
+#### using aov_ez()
+***ANOVA*** using the aov_ez() method
+```{r}
+afexModel = aov_ez(data = data.long, id = "subj", dv = "score", between = "condition")
+afexModel$anova_table
+```
+
+
+#### using *aov()*
+***ANOVA*** using the aov method
 ```{r}
 aovModel = aov(formula = score ~ condition, data = data.long)
 summary(aovModel)
 ```
-**ANOVA*** with the linear model method
+
+#### using *lm()*
+***ANOVA*** using the linear model method
 ```{r}
 lmModel = lm(formula = score ~ condition, data = data.long)
 summary(lmModel)
 ```
+
+### Non-parametric methods
+```{r}
+kruskal.test(score~condition, data.long)
+```
+
 
 ## Post-hoc analysis
 
