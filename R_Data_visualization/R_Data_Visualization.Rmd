@@ -9,7 +9,6 @@ output:
     toc_depth: 2
     toc_float:
       toc_collapsed: true 
-    css: styles.css
   pdf_document:
     fig_caption: yes
     number_sections: yes
@@ -28,16 +27,16 @@ body .main-container{
   max-width: 2500px;
   width: 90%;
   margin: auto;
- padding: 1em;
- line-height: 20px ; 
+  padding: 1em;
+  line-height: 20px ; 
 }   
 
 body {
   max-width: 2500px;
   width: 90%;
   margin: auto;
- padding: 1em;
- line-height: 20px ; 
+  padding: 1em;
+  line-height: 20px ; 
 }   
 ```
 
@@ -65,19 +64,19 @@ software versies gebruikt voor deze handleiding:
 
 
 ##  Installatie
-Benodigde packages downloaden & installeren:
-```{r, eval = FALSE, echo=TRUE, results='hide', message=FALSE}
-install.packages(pkgs="ggplot2",  )
-install.packages(pkgs="Hmisc",    )
-install.packages(pkgs="knitr",    )
-install.packages(pkgs="kableExtra")
-```
-Benodigde packages activeren:
-```{r, eval=TRUE, message=FALSE}
-library(package=Hmisc)
-library(package=ggplot2)
-library(package=knitr)
-library(package=kableExtra)
+
+
+Benodigde packages installeren & activeren:
+
+```{r, eval = TRUE, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
+reqPacks = c(
+  "markdown",
+  "knitr",
+  "kableExtra",
+  "Hmisc",
+  "ggplot2")
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(reqPacks, character.only = TRUE)
 ```
 
 ***
