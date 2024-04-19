@@ -22,7 +22,7 @@ header-includes:
 ```{css, echo=FALSE}
 body .main-container{
   max-width: 2500px;
-  width: 90%;
+  width: 100%;
   margin: 0;
  padding: 1em;
  line-height: 20px ; 
@@ -30,15 +30,15 @@ body .main-container{
 
 body {
   max-width: 2500px;
-  width: 90%;
+  width: 100%;
   margin: 0;
  padding: 1em;
  line-height: 20px ; 
 }   
 
 #TOC {
-  max-width: 300px;
-  width: 30%;
+  max-width: 280px;
+  width: 20%;
 }
 ```
 
@@ -52,6 +52,8 @@ contact: J.J.vanNijnatten@uva.nl
 source code: https://github.com/jonasvannijnatten/PB_statistiek
 
 laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
+
+Other R manuals for Psychobiology: file:///C:/Users/Jonas/Documents/GitHub/PB_statisiek/index.html
 
 ***
 
@@ -283,9 +285,9 @@ Test equality of variances
 leveneTest(y = data.long$score, group = data.long$condition)
 ```
 
-## Running the test {.tabset}
+## Running the test {.tabset .tabset-pills}
 
-### parametric methods {.tabset}
+### parametric methods {.tabset .tabset-pills}
 
 
 #### using *ezANOVA()*
@@ -295,30 +297,48 @@ ezModel = ezANOVA(data = data.long, dv = score, between = condition, wid = subj)
 ezModel$ANOVA
 ```
 
-#### using aov_ez()
+#### using *aov_ez()* (Recommended by Jonas) {.active}
 ***ANOVA*** using the aov_ez() method
-```{r}
+1. First we build the model using the *aov_ez()* function from the *afex* package.  
+```{r, message=FALSE}
 afexModel = aov_ez(data = data.long, id = "subj", dv = "score", between = "condition")
 afexModel$anova_table
+``` 
+  
+
+2. Next we test the assumption of normality for all the residuals in the model at once:
+```{r, message=FALSE}
+hist(afexModel$lm$residuals)
+shapiro.test(afexModel$lm$residuals)
+```
+
+```{r, results='hide', fig.keep='all'}
+# library(car)
+qqPlot(afexModel$lm)
+```  
+  
+3. Then we test the assumption of equal variences using Levene's Test:
+```{r}
+leveneTest(afexModel$lm)
 ```
 
 
 #### using *aov()*
 ***ANOVA*** using the aov method
-```{r}
+```{r, message=FALSE}
 aovModel = aov(formula = score ~ condition, data = data.long)
 summary(aovModel)
 ```
 
 #### using *lm()*
 ***ANOVA*** using the linear model method
-```{r}
+```{r, message=FALSE}
 lmModel = lm(formula = score ~ condition, data = data.long)
 summary(lmModel)
 ```
 
 ### Non-parametric methods
-```{r}
+```{r, message=FALSE}
 kruskal.test(score~condition, data.long)
 ```
 
@@ -473,6 +493,18 @@ data.wide = data.frame(
   C =  rnorm(n = nrofsubs, mean = sample(8,1)+10 , sd = sample(5,1))
 )
 rm(list=c("nrofsubs")) # delete arrays
+
+# reshape the data to the long format for some analysis methods
+data.long = reshape(
+  data = data.wide
+  ,direction  = 'long'          # richting van de data-transformatie
+  ,varying    = c('A','B','C')  # kolomnamen die worden samengevoegd
+  ,idvar      = 'subj'          # kolomnaam met de ppn-nummers
+  ,v.names    = 'score'         # naam van nieuwe kolom met meetwaarden
+  ,timevar    = 'condition'     # naam van nieuwe kolom met condities
+  ,times      = c('A','B','C')  # waardes 
+  )
+data.long$condition = as.factor(data.long$condition)
 ```
 </details>  
 
@@ -481,14 +513,104 @@ kable(data.wide[1:4,], row.names = FALSE, caption = 'data.wide') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
-## Fitting the model
+## Fitting the model {.tabset .tabset-pills}
 
+### Parametric Test  {.tabset .tabset-pills}
+
+#### Using *ezAONVA*
+
+1. First we fit the model using the *ezANOVA()* function:
+```{r}
+ezModel = ezANOVA(data = data.long, dv = score, wid = subj, within = condition)
+```
+  
+2. Then we check for the assumption of normality. Because the model takes into account individual differences, we should first correct the individual score by removing the individual differences from the data.
+We do this by calculating how each individual differes from the overall mean.
+
+$corrected = Y_{i,j}corrected - (\overline{Yi} - \overline{Y})$  
+
+where $i$ represents the individual subjects, and $j$ represents the different conditions
+
+```{r, results='hold'}
+data.long$subjMean     = data.long$score
+data.long$correction   = data.long$score
+data.long$corrected    = data.long$score
+
+for (i in unique(data.long$subj)){
+  data.long$subjMean[which(data.long$subj==i)] = mean(data.long$score[which(data.long$subj==i)])
+  data.long$correction[which(data.long$subj==i)] = 
+    (data.long$subjMean[which(data.long$subj==i)] - mean(data.long$score))
+  data.long$corrected[which(data.long$subj==i)] = 
+    data.long$score[which(data.long$subj==i)] - data.long$correction[which(data.long$subj==i)]
+}
+```
+
+   
+Then we can use the corrected data to test for normality:
+```{r, eval=FALSE}   
+by(data = data.long$corrected, INDICES = data.long$condition, FUN = shapiro.test)
+par(mfrow=c(1,3))
+by(data = data.long$corrected, INDICES = data.long$condition, FUN = hist)
+par(mfrow=c(1,1))
+```
+
+
+```{r, eval=TRUE, echo=FALSE}   
+by(data = data.long$corrected, INDICES = data.long$condition, FUN = shapiro.test)
+```
+
+```{r, echo=FALSE, results='hide', fig.keep='all'}
+par(mfrow=c(1,3))
+by(data = data.long$corrected, INDICES = data.long$condition, FUN = hist)
+par(mfrow=c(1,1))
+```
+
+
+
+3. Then we check the assumption of spherecity using Mauchly's test (which is built into the ezANOVA)
+```{r}
+ezModel$`Mauchly's Test for Sphericity`
+```
+If the assumption of spherecity is violated, you can use the corrected output of the *ezANOVA()* function. You don' need te refer to a non-parametric alternative.
+
+```{r}
+ezModel$`Sphericity Corrections`
+```
+Otherwise we can use the default output as results:
+```{r}
+ezModel$ANOVA
+```
+***
+
+#### Using *aov_ez()* (recommended by Jonas) {.active}
+
+  1. First we fit the model using *aov_ez()*
+```{r}
+library(afex)
+afexModel = aov_ez(id = "subj", dv = "score", data = data.long, within = "condition", )
+```
+
+  
+  2. Next we test the assumption of normality for all the residuals in the model at once:  
+```{r, message=FALSE}
+hist(afexModel$lm$residuals)
+shapiro.test(afexModel$lm$residuals)
+```
+      
+    
+  3. The *aov_ez()* function automatically corrects the output for sphericity. The degree of the correction depends on the degree of (non)-sphericity. So when the data is perfectly spherical, the correction is zero.
+```{r}
+afexModel
+```
+***  
+
+#### Using *lm()*
 fit linear model
 ```{r}
 model = lm(formula = cbind(data.wide$A, data.wide$B, data.wide$C)~1)
 ```  
 
-## Checking assumptions
+  1. Checking assumptions
 
 Test assumption of normality
 ```{r, results='hide', eval=FALSE}
@@ -506,13 +628,26 @@ Test assumption of sphericity
 mauchly.test(model, X=~1)
 ```
 
-## Running the test
+  2. Running the test
 
 Test the model using ANOVA
 ```{r}
 anova(model, X = ~1, test="Spherical")
 ```
 
+***  
+
+### Non-parametric test
+
+When the assumptions of parametric testing are violated the Friedman ANOVA can be used:
+```{r}
+FMaov = friedman.test(score~condition|subj, data.long)
+```
+
+
+  
+  
+*** 
 ## Post-hoc analysis
 For post-hoc analysis the data has to be transformed to the **long format**
 <details><summary><span style="color:dodgerBlue">Show code for reshaping </span></summary>
