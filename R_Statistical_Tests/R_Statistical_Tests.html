@@ -1793,7 +1793,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-28.99931
+20.96265
 </td>
 </tr>
 <tr>
@@ -1804,7 +1804,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-19.50635
+17.51883
 </td>
 </tr>
 <tr>
@@ -1815,7 +1815,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-20.25915
+16.77531
 </td>
 </tr>
 <tr>
@@ -1826,7 +1826,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-13.57164
+13.07579
 </td>
 </tr>
 <tr>
@@ -1837,7 +1837,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-16.34820
+27.13948
 </td>
 </tr>
 <tr>
@@ -1848,7 +1848,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-26.29421
+42.58118
 </td>
 </tr>
 <tr>
@@ -1859,7 +1859,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-35.42387
+47.40796
 </td>
 </tr>
 <tr>
@@ -1870,7 +1870,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-29.49773
+48.12905
 </td>
 </tr>
 <tr>
@@ -1881,7 +1881,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-39.76428
+26.34114
 </td>
 </tr>
 <tr>
@@ -1892,7 +1892,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-41.90214
+34.70571
 </td>
 </tr>
 </tbody>
@@ -1904,7 +1904,7 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.9643, p-value = 0.2343
+## W = 0.95672, p-value = 0.1293
 ## 
 ## ------------------------------------------------------------ 
 ## data.long$condition: B
@@ -1912,30 +1912,28 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.97805, p-value = 0.6174</code></pre>
+## W = 0.98822, p-value = 0.9461</code></pre>
 <p>Test assumption of equality of variances</p>
 <pre class="r"><code>leveneTest(y = data.long$score, group = data.long$condition)</code></pre>
 <pre><code>## Warning in leveneTest.default(y = data.long$score, group =
 ## data.long$condition): data.long$condition coerced to factor.</code></pre>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
-##       Df F value  Pr(&gt;F)  
-## group  1   3.849 0.05334 .
-##       78                  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+##       Df F value Pr(&gt;F)
+## group  1  0.1769 0.6752
+##       78</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=FALSE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
 ## data:  score by condition
-## t = -7.4367, df = 78, p-value = 1.151e-10
+## t = -6.519, df = 78, p-value = 6.381e-09
 ## alternative hypothesis: true difference in means between group A and group B is not equal to 0
 ## 95 percent confidence interval:
-##  -13.185735  -7.616779
+##  -13.728238  -7.304918
 ## sample estimates:
 ## mean in group A mean in group B 
-##        24.44703        34.84828</code></pre>
+##        23.94961        34.46619</code></pre>
 </div>
 <div id="paired-samples-t-test" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Paired samples
@@ -1978,7 +1976,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-19.15499
+30.41533
 </td>
 </tr>
 <tr>
@@ -1989,7 +1987,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-32.00648
+39.20853
 </td>
 </tr>
 <tr>
@@ -2000,7 +1998,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-16.63858
+38.08395
 </td>
 </tr>
 <tr>
@@ -2011,7 +2009,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-27.28300
+28.59857
 </td>
 </tr>
 <tr>
@@ -2022,7 +2020,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-20.39897
+27.49609
 </td>
 </tr>
 <tr>
@@ -2033,7 +2031,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-32.55302
+26.96253
 </td>
 </tr>
 <tr>
@@ -2044,7 +2042,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-32.84232
+41.84001
 </td>
 </tr>
 <tr>
@@ -2055,7 +2053,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-30.44599
+21.29598
 </td>
 </tr>
 <tr>
@@ -2066,7 +2064,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-28.96112
+34.76547
 </td>
 </tr>
 <tr>
@@ -2077,7 +2075,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-43.98257
+35.27547
 </td>
 </tr>
 </tbody>
@@ -2090,20 +2088,20 @@ shapiro.test(diffScore)</code></pre>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  diffScore
-## W = 0.94919, p-value = 0.1608</code></pre>
+## W = 0.96888, p-value = 0.5089</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=TRUE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  score by condition
-## t = -9.9393, df = 29, p-value = 7.576e-11
+## t = -4.9935, df = 29, p-value = 2.583e-05
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -13.903365  -9.157978
+##  -10.978047  -4.598275
 ## sample estimates:
 ## mean difference 
-##       -11.53067</code></pre>
+##       -7.788161</code></pre>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
@@ -3080,6 +3078,92 @@ C
 </td>
 <td style="text-align:right;">
 12.458328
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
+<caption>
+data.long
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+subj
+</th>
+<th style="text-align:left;">
+condition
+</th>
+<th style="text-align:right;">
+score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+11.734573
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+7.657486
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+17.298260
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+9.042593
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+13.226653
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+8.244977
 </td>
 </tr>
 </tbody>

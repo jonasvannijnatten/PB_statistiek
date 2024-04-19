@@ -511,6 +511,9 @@ data.long$condition = as.factor(data.long$condition)
 ```{r,echo=FALSE}
 kable(data.wide[1:4,], row.names = FALSE, caption = 'data.wide') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+
+kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
 ## Fitting the model {.tabset .tabset-pills}
