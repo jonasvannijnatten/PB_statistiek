@@ -2,4 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+*.RData
+*.Rhistory
 /R_Data_visualization/.Rproj.user
+
+
