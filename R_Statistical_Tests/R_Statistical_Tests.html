@@ -1727,7 +1727,7 @@ width: 20%;
 <p>contact: <a href="mailto:J.J.vanNijnatten@uva.nl" class="email">J.J.vanNijnatten@uva.nl</a></p>
 <p>source code: <a href="https://github.com/jonasvannijnatten/PB_statistiek" class="uri">https://github.com/jonasvannijnatten/PB_statistiek</a></p>
 <p>laatste update: 19-04-2024</p>
-<p>Other R manuals for Psychobiology: <a href="file:///C:/Users/Jonas/Documents/GitHub/PB_statisiek/index.html" class="uri">file:///C:/Users/Jonas/Documents/GitHub/PB_statisiek/index.html</a></p>
+<p>Other R manuals for Psychobiology: <a href="https://jonasvannijnatten.github.io/PB_statistiek/" class="uri">https://jonasvannijnatten.github.io/PB_statistiek/</a></p>
 <hr />
 <div style="page-break-after: always;"></div>
 <div id="r-and-package-versions" class="section level1" number="1">
@@ -1793,7 +1793,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-32.69179
+28.99931
 </td>
 </tr>
 <tr>
@@ -1804,7 +1804,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-29.17972
+19.50635
 </td>
 </tr>
 <tr>
@@ -1815,7 +1815,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-32.37329
+20.25915
 </td>
 </tr>
 <tr>
@@ -1826,7 +1826,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-26.81950
+13.57164
 </td>
 </tr>
 <tr>
@@ -1837,7 +1837,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-27.76992
+16.34820
 </td>
 </tr>
 <tr>
@@ -1848,7 +1848,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-25.89099
+26.29421
 </td>
 </tr>
 <tr>
@@ -1859,7 +1859,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-34.61879
+35.42387
 </td>
 </tr>
 <tr>
@@ -1870,7 +1870,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-39.76209
+29.49773
 </td>
 </tr>
 <tr>
@@ -1881,7 +1881,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-30.77298
+39.76428
 </td>
 </tr>
 <tr>
@@ -1892,7 +1892,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-24.20658
+41.90214
 </td>
 </tr>
 </tbody>
@@ -1904,7 +1904,7 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.96325, p-value = 0.2161
+## W = 0.9643, p-value = 0.2343
 ## 
 ## ------------------------------------------------------------ 
 ## data.long$condition: B
@@ -1912,28 +1912,30 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.96168, p-value = 0.191</code></pre>
+## W = 0.97805, p-value = 0.6174</code></pre>
 <p>Test assumption of equality of variances</p>
 <pre class="r"><code>leveneTest(y = data.long$score, group = data.long$condition)</code></pre>
 <pre><code>## Warning in leveneTest.default(y = data.long$score, group =
 ## data.long$condition): data.long$condition coerced to factor.</code></pre>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
-##       Df F value Pr(&gt;F)
-## group  1  0.9849 0.3241
-##       78</code></pre>
+##       Df F value  Pr(&gt;F)  
+## group  1   3.849 0.05334 .
+##       78                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=FALSE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
 ## data:  score by condition
-## t = -5.5848, df = 78, p-value = 3.285e-07
+## t = -7.4367, df = 78, p-value = 1.151e-10
 ## alternative hypothesis: true difference in means between group A and group B is not equal to 0
 ## 95 percent confidence interval:
-##  -11.556319  -5.482387
+##  -13.185735  -7.616779
 ## sample estimates:
 ## mean in group A mean in group B 
-##        26.51093        35.03029</code></pre>
+##        24.44703        34.84828</code></pre>
 </div>
 <div id="paired-samples-t-test" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Paired samples
@@ -1976,7 +1978,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-28.16539
+19.15499
 </td>
 </tr>
 <tr>
@@ -1987,7 +1989,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-25.60733
+32.00648
 </td>
 </tr>
 <tr>
@@ -1998,7 +2000,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-21.64011
+16.63858
 </td>
 </tr>
 <tr>
@@ -2009,7 +2011,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-27.68123
+27.28300
 </td>
 </tr>
 <tr>
@@ -2020,7 +2022,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-17.49695
+20.39897
 </td>
 </tr>
 <tr>
@@ -2031,7 +2033,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-39.46843
+32.55302
 </td>
 </tr>
 <tr>
@@ -2042,7 +2044,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-27.84283
+32.84232
 </td>
 </tr>
 <tr>
@@ -2053,7 +2055,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-42.76559
+30.44599
 </td>
 </tr>
 <tr>
@@ -2064,7 +2066,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-22.36401
+28.96112
 </td>
 </tr>
 <tr>
@@ -2075,7 +2077,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-38.63324
+43.98257
 </td>
 </tr>
 </tbody>
@@ -2088,20 +2090,20 @@ shapiro.test(diffScore)</code></pre>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  diffScore
-## W = 0.95822, p-value = 0.2787</code></pre>
+## W = 0.94919, p-value = 0.1608</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=TRUE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  score by condition
-## t = -5.6253, df = 29, p-value = 4.472e-06
+## t = -9.9393, df = 29, p-value = 7.576e-11
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -13.430768  -6.268563
+##  -13.903365  -9.157978
 ## sample estimates:
 ## mean difference 
-##       -9.849665</code></pre>
+##       -11.53067</code></pre>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>

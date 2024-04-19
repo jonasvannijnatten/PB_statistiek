@@ -53,7 +53,7 @@ source code: https://github.com/jonasvannijnatten/PB_statistiek
 
 laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
 
-Other R manuals for Psychobiology: file:///C:/Users/Jonas/Documents/GitHub/PB_statisiek/index.html
+Other R manuals for Psychobiology: https://jonasvannijnatten.github.io/PB_statistiek/
 
 ***
 

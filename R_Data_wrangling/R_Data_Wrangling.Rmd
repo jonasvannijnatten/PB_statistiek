@@ -45,6 +45,8 @@ broncode: https://github.com/jonasvannijnatten/PB_statistiek
 
 laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
 
+Other R manuals for Psychobiology: https://jonasvannijnatten.github.io/PB_statistiek/
+
 \newpage
 
 # Datasets aanmaken
