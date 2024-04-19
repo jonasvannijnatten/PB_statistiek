@@ -1,6 +1,0 @@
-"0","ggplot(data.long, aes(x=treatment, y=score, group=control, colour=control)) +"
-"0","  geom_point   (size=1)  +"
-"0","  geom_line    (linetype=""dashed"" ,aes(group=interaction(subj,control)), alpha=.5) + "
-"0","  stat_summary ( geom=""line"", fun = ""mean"", size=1.5) +"
-"0","  stat_summary ( geom=""point"", fun = ""mean"", size=2) +"
-"0","  geom_errorbar( stat=""summary"", fun.data=""mean_se"", size=1, fun.args = 2, width = 0.3) "

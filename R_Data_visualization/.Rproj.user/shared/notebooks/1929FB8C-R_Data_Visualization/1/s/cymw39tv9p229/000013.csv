@@ -1,4 +1,0 @@
-"0","ggplot(data.long, aes(x=cond, y=score, fill=cond) ) +"
-"0","  stat_summary ( geom = ""bar"", fun    = ""mean"" , position = ""dodge"")  +"
-"0","  geom_errorbar( stat = ""summary"", fun.data = ""mean_se"", fun.args = 2, width = 0.3 ) +"
-"0","  geom_point   ( position=position_jitter(width = .1) )"

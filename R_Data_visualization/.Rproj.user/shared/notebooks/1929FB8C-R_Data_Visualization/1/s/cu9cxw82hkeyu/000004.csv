@@ -1,4 +1,0 @@
-"0","ggplot(data.long, aes(x=treatment, y=score, fill=control) ) +"
-"0","  geom_boxplot (outlier.shape = NA) +"
-"0","  stat_boxplot(geom=""errorbar"", width=.3, position = position_dodge(.75) ) +"
-"0","  geom_point  ( position = position_jitterdodge(jitter.width = .2) )"
