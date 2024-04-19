@@ -1793,7 +1793,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-25.95161
+32.69179
 </td>
 </tr>
 <tr>
@@ -1804,7 +1804,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-28.42627
+29.17972
 </td>
 </tr>
 <tr>
@@ -1815,7 +1815,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-21.09564
+32.37329
 </td>
 </tr>
 <tr>
@@ -1826,7 +1826,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-32.02867
+26.81950
 </td>
 </tr>
 <tr>
@@ -1837,7 +1837,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-17.70840
+27.76992
 </td>
 </tr>
 <tr>
@@ -1848,7 +1848,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-34.06471
+25.89099
 </td>
 </tr>
 <tr>
@@ -1859,7 +1859,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-35.80119
+34.61879
 </td>
 </tr>
 <tr>
@@ -1870,7 +1870,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-47.20861
+39.76209
 </td>
 </tr>
 <tr>
@@ -1881,7 +1881,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-36.10262
+30.77298
 </td>
 </tr>
 <tr>
@@ -1892,7 +1892,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-29.96146
+24.20658
 </td>
 </tr>
 </tbody>
@@ -1904,7 +1904,7 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.96951, p-value = 0.3471
+## W = 0.96325, p-value = 0.2161
 ## 
 ## ------------------------------------------------------------ 
 ## data.long$condition: B
@@ -1912,14 +1912,14 @@ B
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  dd[x, ]
-## W = 0.97927, p-value = 0.6623</code></pre>
+## W = 0.96168, p-value = 0.191</code></pre>
 <p>Test assumption of equality of variances</p>
 <pre class="r"><code>leveneTest(y = data.long$score, group = data.long$condition)</code></pre>
 <pre><code>## Warning in leveneTest.default(y = data.long$score, group =
 ## data.long$condition): data.long$condition coerced to factor.</code></pre>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
 ##       Df F value Pr(&gt;F)
-## group  1  0.0179  0.894
+## group  1  0.9849 0.3241
 ##       78</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=FALSE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
@@ -1927,13 +1927,13 @@ B
 ##  Two Sample t-test
 ## 
 ## data:  score by condition
-## t = -9.7597, df = 78, p-value = 3.658e-15
+## t = -5.5848, df = 78, p-value = 3.285e-07
 ## alternative hypothesis: true difference in means between group A and group B is not equal to 0
 ## 95 percent confidence interval:
-##  -15.33516 -10.13883
+##  -11.556319  -5.482387
 ## sample estimates:
 ## mean in group A mean in group B 
-##        24.60953        37.34652</code></pre>
+##        26.51093        35.03029</code></pre>
 </div>
 <div id="paired-samples-t-test" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Paired samples
@@ -1976,7 +1976,7 @@ score
 A
 </td>
 <td style="text-align:right;">
-23.33630
+28.16539
 </td>
 </tr>
 <tr>
@@ -1987,7 +1987,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-23.91476
+25.60733
 </td>
 </tr>
 <tr>
@@ -1998,7 +1998,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-17.09005
+21.64011
 </td>
 </tr>
 <tr>
@@ -2009,7 +2009,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-29.48135
+27.68123
 </td>
 </tr>
 <tr>
@@ -2020,7 +2020,7 @@ A
 A
 </td>
 <td style="text-align:right;">
-38.17542
+17.49695
 </td>
 </tr>
 <tr>
@@ -2031,7 +2031,7 @@ A
 B
 </td>
 <td style="text-align:right;">
-41.22232
+39.46843
 </td>
 </tr>
 <tr>
@@ -2042,7 +2042,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-25.57678
+27.84283
 </td>
 </tr>
 <tr>
@@ -2053,7 +2053,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-34.34860
+42.76559
 </td>
 </tr>
 <tr>
@@ -2064,7 +2064,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-28.18935
+22.36401
 </td>
 </tr>
 <tr>
@@ -2075,7 +2075,7 @@ B
 B
 </td>
 <td style="text-align:right;">
-37.37586
+38.63324
 </td>
 </tr>
 </tbody>
@@ -2088,20 +2088,20 @@ shapiro.test(diffScore)</code></pre>
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  diffScore
-## W = 0.97654, p-value = 0.7281</code></pre>
+## W = 0.95822, p-value = 0.2787</code></pre>
 <p><strong>T-test</strong></p>
 <pre class="r"><code>t.test(formula = score ~ condition, data = data.long, paired=TRUE, alternative=&quot;two.sided&quot;, var.equal=TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  score by condition
-## t = -5.8017, df = 29, p-value = 2.748e-06
+## t = -5.6253, df = 29, p-value = 4.472e-06
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -14.745684  -7.059079
+##  -13.430768  -6.268563
 ## sample estimates:
 ## mean difference 
-##       -10.90238</code></pre>
+##       -9.849665</code></pre>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
