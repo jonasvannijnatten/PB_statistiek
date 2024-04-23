@@ -69,7 +69,7 @@ software versions used for this tutorial:
 ##  Installation
 Install & activate the required packages:
 ```{r, eval = TRUE, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
-reqPacks = c("markdown","knitr","kableExtra","car","ez","afex")
+reqPacks = c("markdown","knitr","kableExtra","car","ez","afex", "ggplot2", "gridExtra")
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(reqPacks, character.only = TRUE)
 ```
@@ -534,19 +534,44 @@ $corrected = Y_{i,j}corrected - (\overline{Yi} - \overline{Y})$
 
 where $i$ represents the individual subjects, and $j$ represents the different conditions
 
-```{r, results='hold'}
-data.long$subjMean     = data.long$score
-data.long$correction   = data.long$score
-data.long$corrected    = data.long$score
+```{r, results='hold', warning=TRUE, fig.ncol=2}
+# initialize variables to store calculate correted score
+data.long$subjMean     = rep(NA, dim(data.long)[1])
+data.long$correction   = rep(NA, dim(data.long)[1])
+data.long$corrected    = rep(NA, dim(data.long)[1])
 
 for (i in unique(data.long$subj)){
+  # calculate the mean score for each subject (across conditions)
   data.long$subjMean[which(data.long$subj==i)] = mean(data.long$score[which(data.long$subj==i)])
+  # calculate the correction as the difference between the subject mean vs the overall mean
   data.long$correction[which(data.long$subj==i)] = 
     (data.long$subjMean[which(data.long$subj==i)] - mean(data.long$score))
+  # calculate the corrected score by subtracting the correction per subject from each individual score value
   data.long$corrected[which(data.long$subj==i)] = 
     data.long$score[which(data.long$subj==i)] - data.long$correction[which(data.long$subj==i)]
 }
-```
+
+
+p1 = ggplot(data.long, aes(x=condition, y=score, group=1, colour=subj)) +
+  geom_point   () +
+  geom_line    ( linetype= "dashed", aes(group=subj) ) +
+  stat_summary ( geom = "line",  fun    = "mean" ,    linewidth=2, colour="black", linetype="solid") +
+  stat_summary ( geom = "point", fun    = "mean" ,    size=2, colour="black") +
+  geom_errorbar( stat="summary", fun.data="mean_se",  linewidth=1, fun.args = 2, width = 0.3 ) +
+  ylim(0, 25) +
+  guides(color = "none")
+
+p2 = ggplot(data.long, aes(x=condition, y=corrected, group=1, colour=subj)) +
+  geom_point   () +
+  geom_line    ( linetype= "dashed", aes(group=subj) ) +
+  stat_summary ( geom = "line",  fun    = "mean" ,    linewidth=2, colour="black", linetype="solid") +
+  stat_summary ( geom = "point", fun    = "mean" ,    size=2, colour="black") +
+  geom_errorbar( stat="summary", fun.data="mean_se",  linewidth=1, fun.args = 2, width = 0.3 ) +
+  ylim(0, 25) +
+  guides(color = "none")
+
+grid.arrange(p1, p2, nrow = 1)
+```  
 
    
 Then we can use the corrected data to test for normality:
@@ -643,6 +668,7 @@ anova(model, X = ~1, test="Spherical")
 ### Non-parametric test
 
 When the assumptions of parametric testing are violated the Friedman ANOVA can be used:
+(Note: when the assumption of sphericity is violated you can still run an ANOVA and use the Greenhouse-Geisser corrected F- and p-value.)
 ```{r}
 FMaov = friedman.test(score~condition|subj, data.long)
 ```
@@ -651,7 +677,9 @@ FMaov = friedman.test(score~condition|subj, data.long)
   
   
 *** 
-## Post-hoc analysis
+## Post-hoc analysis  {.tabset .tabset-pills}
+
+### parametric
 For post-hoc analysis the data has to be transformed to the **long format**
 <details><summary><span style="color:dodgerBlue">Show code for reshaping </span></summary>
 ```{r, results='hide'}
@@ -666,7 +694,8 @@ data.long = reshape(data = data.wide
                    )
 ```
 </details>
-
+   
+      
 Use pairwise T-test to compare each combination of conditions
 ```{r}
 pairwise.t.test(
@@ -677,6 +706,32 @@ pairwise.t.test(
   )
 ```
 
+***  
+
+
+### Non-parametric
+For post-hoc analysis the data has to be transformed to the **long format**
+<details><summary><span style="color:dodgerBlue">Show code for reshaping </span></summary>
+```{r, results='hide'}
+# reshape into wide format
+data.long = reshape(data = data.wide
+                   , direction = 'long'
+                   , varying = c("A","B","C")
+                   , timevar = 'treatment'
+                   , times = c("A","B","C")
+                   , v.names = c("score")
+                   , idvar = "subj"
+                   )
+```
+</details> 
+   
+     
+For non-parametric post-hoc test the pairwise Wilcoxon tests can be used as an alternative to the pairwise t-tests. The default method to correct the p-value for multiple comparisons is the *Holm* method (see help file).
+```{r}
+pairwise.wilcox.test(x = data.long$score, g =data.long$condition, paired = TRUE)
+```
+
+   
 ***  
 
 \newpage

@@ -387,9 +387,9 @@ kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') 
 ggplot(data.long, aes(x=cond, y=score, group=1, colour=subj)) +
   geom_point   () +
   geom_line    ( linetype= "dashed", aes(group=subj) ) +
-  stat_summary ( geom = "line",  fun    = "mean" ,    size=2, colour="black", linetype="solid") +
+  stat_summary ( geom = "line",  fun    = "mean" ,    linewidth=2, colour="black", linetype="solid") +
   stat_summary ( geom = "point", fun    = "mean" ,    size=2, colour="black") +
-  geom_errorbar( stat="summary", fun.data="mean_se",  size=1, fun.args = 2, width = 0.3 ) +
+  geom_errorbar( stat="summary", fun.data="mean_se",  linewidth=1, fun.args = 2, width = 0.3 ) +
   guides(color = "none")
 ```  
 
