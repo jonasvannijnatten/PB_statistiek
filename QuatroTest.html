@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonas van Nijnatten">
+
+<title>QuatroTest</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="QuatroTest_files/libs/clipboard/clipboard.min.js"></script>
+<script src="QuatroTest_files/libs/quarto-html/quarto.js"></script>
+<script src="QuatroTest_files/libs/quarto-html/popper.min.js"></script>
+<script src="QuatroTest_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="QuatroTest_files/libs/quarto-html/anchor.min.js"></script>
+<link href="QuatroTest_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="QuatroTest_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="QuatroTest_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="QuatroTest_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="QuatroTest_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="QuatroTest_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="QuatroTest_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#software" id="toc-software" class="nav-link active" data-scroll-target="#software"><span class="header-section-number">1</span> Software</a>
+  <ul class="collapse">
+  <li><a href="#versies" id="toc-versies" class="nav-link" data-scroll-target="#versies"><span class="header-section-number">1.1</span> Versies</a></li>
+  <li><a href="#installatie" id="toc-installatie" class="nav-link" data-scroll-target="#installatie"><span class="header-section-number">1.2</span> Installatie</a></li>
+  </ul></li>
+  <li><a href="#opbouw-van-figuren-met-ggplot2-package" id="toc-opbouw-van-figuren-met-ggplot2-package" class="nav-link" data-scroll-target="#opbouw-van-figuren-met-ggplot2-package"><span class="header-section-number">2</span> Opbouw van figuren met GGplot2 package</a></li>
+  <li><a href="#voorbeelden" id="toc-voorbeelden" class="nav-link" data-scroll-target="#voorbeelden"><span class="header-section-number">3</span> Voorbeelden</a>
+  <ul class="collapse">
+  <li><a href="#t-test" id="toc-t-test" class="nav-link" data-scroll-target="#t-test"><span class="header-section-number">3.1</span> T-test</a></li>
+  <li><a href="#correlatie-regressie" id="toc-correlatie-regressie" class="nav-link" data-scroll-target="#correlatie-regressie"><span class="header-section-number">3.2</span> Correlatie &amp; Regressie</a></li>
+  <li><a href="#one-way-independent-samples-anova" id="toc-one-way-independent-samples-anova" class="nav-link" data-scroll-target="#one-way-independent-samples-anova"><span class="header-section-number">3.3</span> One-way independent samples ANOVA</a></li>
+  <li><a href="#factorial-independent-samples-anova" id="toc-factorial-independent-samples-anova" class="nav-link" data-scroll-target="#factorial-independent-samples-anova"><span class="header-section-number">3.4</span> Factorial independent samples ANOVA</a></li>
+  <li><a href="#one-way-repeated-measures-anova" id="toc-one-way-repeated-measures-anova" class="nav-link" data-scroll-target="#one-way-repeated-measures-anova"><span class="header-section-number">3.5</span> One-way repeated measures ANOVA</a></li>
+  <li><a href="#factorial-repeated-measures-anova" id="toc-factorial-repeated-measures-anova" class="nav-link" data-scroll-target="#factorial-repeated-measures-anova"><span class="header-section-number">3.6</span> Factorial repeated measures ANOVA</a></li>
+  </ul></li>
+  <li><a href="#one-way-independent-samples-anova-1" id="toc-one-way-independent-samples-anova-1" class="nav-link" data-scroll-target="#one-way-independent-samples-anova-1"><span class="header-section-number">4</span> One-way independent samples ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions"><span class="header-section-number">4.1</span> Checking assumptions</a></li>
+  <li><a href="#running-the-test" id="toc-running-the-test" class="nav-link" data-scroll-target="#running-the-test"><span class="header-section-number">4.2</span> Running the test</a></li>
+  <li><a href="#post-hoc-analysis" id="toc-post-hoc-analysis" class="nav-link" data-scroll-target="#post-hoc-analysis"><span class="header-section-number">4.3</span> Post-hoc analysis</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">QuatroTest</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jonas van Nijnatten </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<style type="text/css">
+body .main-container{
+  max-width: 2500px;
+  width: 90%;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px ; 
+}   
+
+body {
+  max-width: 2500px;
+  width: 90%;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px ; 
+}   
+</style>
+</div>
+<p>contact: J.J.vanNijnatten@uva.nl</p>
+<p>broncode: https://github.com/jonasvannijnatten/PB_statistiek</p>
+<p>laatste update: 11-06-2024</p>
+<p>Other R manuals for Psychobiology: https://jonasvannijnatten.github.io/PB_statistiek/</p>
+<hr>
+<div style="page-break-after: always;"></div>
+<section id="software" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Software</h1>
+<section id="versies" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="versies"><span class="header-section-number">1.1</span> Versies</h2>
+<p>software versies gebruikt voor deze handleiding:<br>
+- R version 4.3.1 (2023-06-16 ucrt)<br>
+- ggplot2 versie: 3.4.4, 2023-10-11<br>
+- Hmisc versie: 5.1.1, 2023-09-11<br>
+- knitr versie: 1.44, 2023-09-08</p>
+</section>
+<section id="installatie" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="installatie"><span class="header-section-number">1.2</span> Installatie</h2>
+<p>Benodigde packages installeren &amp; activeren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reqPacks <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"markdown"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"knitr"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"kableExtra"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hmisc"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ggplot2"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"car"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ez"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"afex"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(reqPacks, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="opbouw-van-figuren-met-ggplot2-package" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Opbouw van figuren met GGplot2 package</h1>
+<p>De figuren worden met het GGPlot2 package opgebouwd volgens een bepaalde <em>grammatica van figuren</em> die figuren opdeelt in meerdere <em>lagen</em>. De essentiele lagen zijn <em>Data</em>, <em>Aesthetics</em> en <em>Geometries</em>.<br>
+- <strong>Data</strong>: Dit zijn de datapunten die je wilt gaan visualizeren<br>
+- <strong>Aes</strong>: Dit bepaald welke data met welke assen, subplots, kleuren of symbolen wordt weergegeven.<br>
+- <strong>Geom</strong>: Dit bepaald in welke vorm de data wordt weergegeven (lijnplot, barplot, boxplot etc.)</p>
+<p>De eerste stap is het definieren van de <em>Data</em> en <em>Aesthetics</em> met de functie ggplot() en aes().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">varX=</span><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">2</span>), <span class="at">varY=</span><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">35</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(myData, <span class="fu">aes</span>(<span class="at">x=</span>varX, <span class="at">y=</span>varY))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dit opent een nieuw figuur waarin de data uit <em>myData</em> komt, en <em>varX</em> op de x-as zal komen, en <em>varY</em> op de y-as zal komen. Er is echter nog niets geplot omdat we nog niet hebben aangegeven hoe de plot eruit moet komen te zien.</p>
+<p>De volgende stap is het toevoegen van <em>geometries</em> met behulp van een van de <em>geom_…()</em> functies, bijv. <em>geom_point()</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(myData, <span class="fu">aes</span>(<span class="at">x=</span>varX, <span class="at">y=</span>varY)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dit figuur kan worden uitgebreid door er meer <em>Geometries</em> aan toe te voegen zoald bijvoorbeel lijnen (<em>geom_line()</em>). Daarnaast zijn de eigenschappen van de verschillende <em>geoms</em> individueel aan te passen, zoals bijvoorbeeld kleur een grootte. De volgorde waarin de <em>geoms</em> in de code staan is de volgorde waarin ze worden getekend, met de laatste als bovenste laag. In dit figuur zijn bijvoorbeeld de lijnen over de punten heen getekend. Door de volgorde van <em>geom_point()</em> en <em>geom_line()</em> om te draaien worden de punten over de lijn heen getekend.</p>
+<p>Voor een mooi overzicht en toelichting van alle mogelijkheden van het ggplot2 package zie:<br>
+https://ggplot2.tidyverse.org/reference/</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(myData, <span class="fu">aes</span>(<span class="at">x=</span>varX, <span class="at">y=</span>varY)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">col=</span><span class="st">"green"</span>, <span class="at">size=</span><span class="fl">1.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/Combined%20line%20and%20point%20plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Combined line and point plot</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Uitleg van de <em>grammatica van figuren</em>:<br>
+<iframe width="500" height="300" src="https://www.youtube.com/embed/uiTc55clwuA" data-external="1"> </iframe></p>
+<p>Uitleg van de lagen waaruit een figuur is opgebouwd:<br>
+<iframe width="500" height="300" src="https://www.youtube.com/embed/PiY9hwOkL8U" data-external="1"> </iframe></p>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="voorbeelden" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Voorbeelden</h1>
+<section id="t-test" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="t-test"><span class="header-section-number">3.1</span> T-test</h2>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">40</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>N</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>group1 <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> <span class="dv">25</span>, <span class="at">sd =</span> <span class="fl">6.5</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>group2 <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="fl">6.5</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data.wide <span class="ot">=</span> <span class="fu">data.frame</span>(ID,group1, group2)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape data</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">reshape</span>(<span class="at">data =</span> data.wide,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">direction =</span> <span class="st">"long"</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    , <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"group2"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                    , <span class="at">v.names =</span> <span class="st">"score"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                    , <span class="at">times   =</span> <span class="fu">c</span>(<span class="st">'pre'</span>, <span class="st">'post'</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    , <span class="at">idvar =</span> <span class="st">'ID'</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                    , <span class="at">new.row.names =</span> <span class="cn">NULL</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># set variable time as a factor</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>data.long<span class="sc">$</span>time <span class="ot">=</span> <span class="fu">factor</span>(data.long<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"pre"</span>,<span class="st">"post"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">ID</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">time</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">pre</td>
+<td style="text-align: right;">13.34726</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">pre</td>
+<td style="text-align: right;">29.40235</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">pre</td>
+<td style="text-align: right;">27.07303</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">pre</td>
+<td style="text-align: right;">25.57118</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">pre</td>
+<td style="text-align: right;">21.35547</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">post</td>
+<td style="text-align: right;">40.79999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">post</td>
+<td style="text-align: right;">30.02379</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">post</td>
+<td style="text-align: right;">31.49931</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">post</td>
+<td style="text-align: right;">39.37973</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">post</td>
+<td style="text-align: right;">46.95439</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot means and standard deviations</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>score, <span class="at">fill=</span>time) ) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot de gemiddeldes voor iedere conditie als bargraph</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>   ( <span class="at">geom =</span> <span class="st">"bar"</span>, <span class="at">fun    =</span> <span class="st">"mean"</span> ) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># voeg errobars toe aan de bargraph</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun.data =</span> <span class="st">"mean_sdl"</span>, <span class="at">fun.args =</span> <span class="dv">1</span>, <span class="at">width =</span> <span class="fl">0.3</span> ) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot alle individuele datapunten</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>   ( <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>, <span class="at">seed=</span><span class="dv">1</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/T-Test%20bar%20plot%20with%20STD-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Om de standaardfout (standard error) weer te geven i.p.v. de standaardafwijking (standard deviation) kan bij het argument <em>fun.data</em> de functie <em>“mean_sdl”</em> vervangen worden met <em>“mean_se”</em>. Om de gebruikelijke 2 maal de standaardfout te plotten (of 1.96 om nauwkeuriger te zijn) om het 95% betrouwbaarheidsinterval weer te geven moet bij het argument <em>fun.arg = 1</em> worden vervangen door <em>fun.arg = 2</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun.data =</span> <span class="st">"mean_se"</span>, <span class="at">fun.args =</span> <span class="dv">2</span>, <span class="at">width =</span> <span class="fl">0.3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="page-break-after: always;"></div>
+<p>Wanneer de data niet normaal verdeeld is dan zijn de gemiddeldes en standaarddeviaties of standdaardfouten geen goede representiatie van de data. In dat geval is het gebruikelijker om de data in een boxplot weer te geven met mediaan en quantielafstanden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>score, <span class="at">fill=</span>time) ) <span class="sc">+</span>  </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot een boxplot, outlier.shape = NA onderdrukt het plotten van de outliers</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dit doen we omdat geom_points() alle datapunten al plot)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span>                          </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># voegt 'errorbars' aan het einde van de whiskers toe</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">"errorbar"</span>, <span class="at">width=</span>.<span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot alle individuele datapunten</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_jitter</span>(<span class="at">width=</span>.<span class="dv">2</span>,<span class="at">seed =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/T-Test%20bar%20plot%20with%20SE-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="correlatie-regressie" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="correlatie-regressie"><span class="header-section-number">3.2</span> Correlatie &amp; Regressie</h2>
+<p>Wanneer je de relatie tussen twee continue variabelen onderzoekt kun je een correlatie of lineaire regressie analyse gebruiken. Een correlatietoets geeft aan of beide variabelen samenhangen, terwijl een regressie een predictiemodel toetst. In de pratkijk geven beide statistisch gezien hetzelde resultaat maar verschillen ze in de hypothese die je toetst en de conclusies die je kunt trekken. Bij een correlatie is het daarom gebruikelijk om de correlatiecoefficient <em>r</em> te rapporteren, terwijl het bij een regressie gebruikelijk is om de regressie coefficienten (intercept &amp; helling; <span class="math inline">\(alpha\)</span> en <span class="math inline">\(beta\)</span>) te rapporteren in de vorm van het predictiemodel.</p>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">05</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>nrobs <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>experience <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> nrobs, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>salary     <span class="ot">=</span> <span class="dv">10000</span> <span class="sc">+</span> ( <span class="dv">5</span> <span class="sc">*</span> experience ) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> nrobs, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(experience, salary)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate correlation coefficient r</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>corr_coef <span class="ot">=</span> <span class="fu">cor</span>(<span class="at">x =</span> data.long<span class="sc">$</span>experience, <span class="at">y =</span> data.long<span class="sc">$</span>salary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">experience</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">salary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">12.47743</td>
+<td style="text-align: right;">9862.848</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19.15308</td>
+<td style="text-align: right;">10209.297</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11.23352</td>
+<td style="text-align: right;">10123.747</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15.21043</td>
+<td style="text-align: right;">10096.900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20.13432</td>
+<td style="text-align: right;">10094.887</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<p>Correlatieplot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data.long, <span class="fu">aes</span>(<span class="at">x =</span> experience, <span class="at">y =</span> salary)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  <span class="co"># plot the datapoints</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add a linear regression line with 95% confidence interval</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula =</span> <span class="st">'y ~ x'</span>, <span class="at">se=</span><span class="cn">TRUE</span>, <span class="at">level=</span><span class="fl">0.95</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot the correlation coefficient into to figure</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">9</span>, <span class="at">y =</span> <span class="dv">10275</span>, <span class="at">color=</span><span class="st">"blue"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"r ="</span>, <span class="fu">as.character</span>(<span class="fu">round</span>(corr_coef,<span class="dv">3</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<p>Regressieplot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apply linear regression and obtain regression coefficients</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lin_mod <span class="ot">=</span> <span class="fu">summary</span>(<span class="fu">lm</span>(<span class="at">data =</span> data.long, <span class="at">formula =</span> salary<span class="sc">~</span>experience))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fu">round</span>(lin_mod<span class="sc">$</span>coefficients[<span class="dv">1</span>],<span class="dv">2</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>beta  <span class="ot">=</span> <span class="fu">round</span>(lin_mod<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>corr_coef <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">sqrt</span>(lin_mod<span class="sc">$</span>r.squared),<span class="dv">3</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create figure  </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data.long, <span class="fu">aes</span>(<span class="at">x =</span> experience, <span class="at">y =</span> salary)) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  <span class="co"># plot the datapoints</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add a linear regression line with 95% confidence interval</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula =</span> <span class="st">'y ~ x'</span>, <span class="at">se=</span><span class="cn">TRUE</span>, <span class="at">level=</span><span class="fl">0.95</span>) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot the correlation coefficient into to figure</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">12</span>, <span class="at">y =</span> <span class="dv">10275</span>, <span class="at">color=</span><span class="st">"blue"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"salary = "</span>, alpha, <span class="st">"+"</span>, beta,<span class="st">"*"</span>,<span class="st">"experience, r ="</span>,corr_coef))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="one-way-independent-samples-anova" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="one-way-independent-samples-anova"><span class="header-section-number">3.3</span> One-way independent samples ANOVA</h2>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">05</span>)   <span class="co"># set seed</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>nrofconds <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>nrofsubs  <span class="ot">=</span> <span class="dv">20</span> <span class="co"># set number of subjects</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="dv">1</span><span class="sc">:</span>(nrofsubs<span class="sc">*</span>nrofconds))      <span class="co"># create array with subject IDs</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofconds],<span class="at">each=</span>nrofsubs))   <span class="co"># create array with condition values</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>          nrofconds , <span class="fu">rnorm</span>(<span class="at">n =</span> nrofsubs, <span class="at">mean =</span> <span class="fu">sample</span>(<span class="dv">8</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span> , <span class="at">sd =</span> <span class="fu">sample</span>(<span class="dv">5</span>,<span class="dv">1</span>) )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        ) )                                     <span class="co"># create array with measurement values</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, cond, score);      <span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">setdiff</span>(<span class="fu">ls</span>(), <span class="fu">c</span>(<span class="st">"data.long"</span>, <span class="st">"nrofsubs"</span>,<span class="st">"nrofconds"</span>))) <span class="co"># delete arrays</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">subj</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">cond</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">16.153078</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">8.233524</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">18.935924</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">22</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">17.413522</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">41</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">15.895668</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">42</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">13.543431</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>cond, <span class="at">y=</span>score, <span class="at">fill=</span>cond) ) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom =</span> <span class="st">"bar"</span>, <span class="at">fun    =</span> <span class="st">"mean"</span> , <span class="at">position =</span> <span class="st">"dodge"</span>)  <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun.data =</span> <span class="st">"mean_se"</span>, <span class="at">fun.args =</span> <span class="dv">2</span>, <span class="at">width =</span> <span class="fl">0.3</span> ) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>   ( <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="factorial-independent-samples-anova" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="factorial-independent-samples-anova"><span class="header-section-number">3.4</span> Factorial independent samples ANOVA</h2>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren</span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">01</span>)   <span class="co"># set seed</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>nrofcondsf1 <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions for factor 1</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>nrofcondsf2 <span class="ot">=</span> <span class="dv">2</span>  <span class="co"># set number of conditions for factor 2</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>nrofsubs    <span class="ot">=</span> nrofcondsf1<span class="sc">*</span>nrofcondsf2<span class="sc">*</span><span class="dv">30</span> <span class="co"># set number of subjects per condition</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="dv">1</span><span class="sc">:</span>(nrofsubs))      <span class="co"># create array with subject IDs</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create array witht treatment conditions</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofcondsf1],<span class="at">each=</span>nrofsubs<span class="sc">/</span>nrofcondsf1))   </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with control / experimental</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>control   <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"experimental"</span>),<span class="at">times=</span>nrofsubs<span class="sc">/</span>nrofcondsf2))   </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with measurement values</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(nrofcondsf1, <span class="fu">replicate</span> (</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>          nrofcondsf2 , <span class="fu">rnorm</span>(</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> (nrofsubs<span class="sc">/</span>(nrofcondsf1<span class="sc">*</span>nrofcondsf2)),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean =</span> <span class="dv">0</span> , <span class="at">sd =</span> <span class="fu">sample</span>(<span class="dv">5</span>,<span class="dv">1</span>) ) <span class="sc">+</span> <span class="fu">sample</span>(<span class="dv">8</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        ) ) )                             </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, score, treatment, control);      </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># delete unnecessary arrays</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"nrofcondsf1"</span>,<span class="st">"nrofcondsf2"</span>,<span class="st">"nrofsubs"</span>,<span class="st">"score"</span>,<span class="st">"subj"</span>,<span class="st">"treatment"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">subj</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">treatment</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">control</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">11.673767</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">13.329799</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">61</td>
+<td style="text-align: right;">13.484527</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">62</td>
+<td style="text-align: right;">10.149803</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">121</td>
+<td style="text-align: right;">10.811829</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">122</td>
+<td style="text-align: right;">7.591698</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>treatment, <span class="at">y=</span>score, <span class="at">fill=</span>control) ) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom =</span> <span class="st">"bar"</span>, <span class="at">fun    =</span> <span class="st">"mean"</span> , <span class="at">position =</span> <span class="st">"dodge"</span>)  <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun.data =</span> <span class="st">"mean_se"</span>, <span class="at">fun.args =</span> <span class="dv">2</span>, <span class="at">width =</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">9</span>) ) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>  ( <span class="at">position =</span> <span class="fu">position_jitterdodge</span>(<span class="at">jitter.width =</span> .<span class="dv">2</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">01</span>)   <span class="co"># set seed</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>nrofcondsf1 <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions for factor 1</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>nrofcondsf2 <span class="ot">=</span> <span class="dv">2</span>  <span class="co"># set number of conditions for factor 2</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>nrofsubs    <span class="ot">=</span> nrofcondsf1<span class="sc">*</span>nrofcondsf2<span class="sc">*</span><span class="dv">20</span> <span class="co"># set number of subjects per condition</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="dv">1</span><span class="sc">:</span>(nrofsubs))      <span class="co"># create array with subject IDs</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create array witht treatment conditions</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofcondsf1],<span class="at">each=</span>nrofsubs<span class="sc">/</span>nrofcondsf1))   </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with control / experimental</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>control   <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"experimental"</span>),<span class="at">times=</span>nrofsubs<span class="sc">/</span>nrofcondsf2))   </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with measurement values</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(nrofcondsf1, <span class="fu">replicate</span> (</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>          nrofcondsf2 , <span class="fu">rchisq</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> (nrofsubs<span class="sc">/</span>(nrofcondsf1<span class="sc">*</span>nrofcondsf2)),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">df =</span> <span class="dv">3</span>)  </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        )<span class="sc">+</span>  <span class="fu">sample</span>(<span class="dv">14</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span>  ) )                             </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, score, treatment, control);      </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># delete unnecessary arrays</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"nrofcondsf1"</span>,<span class="st">"nrofcondsf2"</span>,<span class="st">"nrofsubs"</span>,<span class="st">"score"</span>,<span class="st">"subj"</span>,<span class="st">"treatment"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>treatment, <span class="at">y=</span>score, <span class="at">fill=</span>control) ) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span> (<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">"errorbar"</span>, <span class="at">width=</span>.<span class="dv">3</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">75</span>) ) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>  ( <span class="at">position =</span> <span class="fu">position_jitterdodge</span>(<span class="at">jitter.width =</span> .<span class="dv">2</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="one-way-repeated-measures-anova" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="one-way-repeated-measures-anova"><span class="header-section-number">3.5</span> One-way repeated measures ANOVA</h2>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate dataset</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">01</span>)   <span class="co"># set seed</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>nrofsubs  <span class="ot">=</span> <span class="dv">20</span> <span class="co"># set number of subjects</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>nrofconds <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>nrofsubs,nrofconds))      <span class="co"># create array with subject IDs</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofconds],<span class="at">each=</span>nrofsubs))   <span class="co"># create array with condition values</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>          nrofconds , <span class="fu">rnorm</span>(<span class="at">n =</span> nrofsubs, <span class="at">mean =</span> <span class="fu">sample</span>(<span class="dv">8</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span> , <span class="at">sd =</span> <span class="fu">sample</span>(<span class="dv">5</span>,<span class="dv">1</span>) )</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        ) )                                     <span class="co"># create array with measurement values</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, cond, score);      <span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">"cond"</span>,<span class="st">"nrofconds"</span>,<span class="st">"nrofsubs"</span>,<span class="st">"score"</span>,<span class="st">"subj"</span>)) <span class="co"># delete arrays</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">subj</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">cond</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">11.734573</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">7.657486</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">17.298260</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">9.042593</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">13.226653</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">8.244977</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>cond, <span class="at">y=</span>score, <span class="at">group=</span><span class="dv">1</span>, <span class="at">colour=</span>subj)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>   () <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>    ( <span class="at">linetype=</span> <span class="st">"dashed"</span>, <span class="fu">aes</span>(<span class="at">group=</span>subj) ) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom =</span> <span class="st">"line"</span>,  <span class="at">fun    =</span> <span class="st">"mean"</span> ,    <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">linetype=</span><span class="st">"solid"</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">fun    =</span> <span class="st">"mean"</span> ,    <span class="at">size=</span><span class="dv">2</span>, <span class="at">colour=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat=</span><span class="st">"summary"</span>, <span class="at">fun.data=</span><span class="st">"mean_se"</span>,  <span class="at">size=</span><span class="dv">1</span>, <span class="at">fun.args =</span> <span class="dv">2</span>, <span class="at">width =</span> <span class="fl">0.3</span> ) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="factorial-repeated-measures-anova" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="factorial-repeated-measures-anova"><span class="header-section-number">3.6</span> Factorial repeated measures ANOVA</h2>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">02</span>)  <span class="co"># set seed</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>nrofcondsf1 <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions for factor 1</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>nrofcondsf2 <span class="ot">=</span> <span class="dv">2</span>  <span class="co"># set number of conditions for factor 2</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>nrofsubs    <span class="ot">=</span> <span class="dv">10</span> <span class="co"># set number of subjects</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with subject IDs</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>(nrofsubs),<span class="at">times=</span>nrofcondsf1<span class="sc">*</span>nrofcondsf2))    </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create array witht treatment conditions</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofcondsf1],<span class="at">each=</span>nrofsubs<span class="sc">*</span>nrofcondsf2))   </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with control / experimental</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>control   <span class="ot">=</span> <span class="fu">as.factor</span>(</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"experimental"</span>),<span class="at">each=</span>nrofsubs),<span class="at">times=</span>nrofcondsf1))  </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create array with measurement values</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(nrofcondsf1,        </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">replicate</span>(nrofcondsf2,    </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">rnorm</span>(<span class="at">n =</span> (nrofsubs), <span class="at">mean =</span> <span class="fu">sample</span>(<span class="dv">14</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span> , <span class="at">sd =</span> <span class="fu">sample</span>(<span class="dv">5</span>,<span class="dv">1</span>)        </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                                   ) ) ) )                  </span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, score, treatment, control);      </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># delete arrays</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">"control"</span>,<span class="st">"nrofcondsf1"</span>,<span class="st">"nrofcondsf2"</span>,<span class="st">"nrofsubs"</span>, <span class="st">"score"</span>, <span class="st">"subj"</span>, <span class="st">"treatment"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">subj</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">treatment</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">control</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">15.967884</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">15.125620</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">9.755724</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">22.514418</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">13.431712</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">10.210325</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">24.383561</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">25.232521</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">21.801232</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">22.161713</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">control</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">21.093728</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">experimental</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data.long, <span class="fu">aes</span>(<span class="at">x=</span>treatment, <span class="at">y=</span>score, <span class="at">group=</span>control, <span class="at">colour=</span>control)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>   (<span class="at">size=</span><span class="dv">1</span>)  <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>    (<span class="at">linetype=</span><span class="st">"dashed"</span> ,<span class="fu">aes</span>(<span class="at">group=</span><span class="fu">interaction</span>(subj,control)), <span class="at">alpha=</span>.<span class="dv">5</span>) <span class="sc">+</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom=</span><span class="st">"line"</span>, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span> ( <span class="at">geom=</span><span class="st">"point"</span>, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>( <span class="at">stat=</span><span class="st">"summary"</span>, <span class="at">fun.data=</span><span class="st">"mean_se"</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">fun.args =</span> <span class="dv">2</span>, <span class="at">width =</span> <span class="fl">0.3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="one-way-independent-samples-anova-1" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> One-way independent samples ANOVA</h1>
+<details>
+<summary>
+<span style="color:dodgerBlue">Toon code om voorbeeld data te genereren </span>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">05</span>)   <span class="co"># set seed</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>nrofconds <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># set number of conditions</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>nrofsubs  <span class="ot">=</span> <span class="dv">20</span> <span class="co"># set number of subjects</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>subj <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="dv">1</span><span class="sc">:</span>(nrofsubs<span class="sc">*</span>nrofconds))      <span class="co"># create array with subject IDs</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span>nrofconds],<span class="at">each=</span>nrofsubs))   <span class="co"># create array with condition values</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>score <span class="ot">=</span> <span class="fu">as.vector</span>( <span class="fu">replicate</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>          nrofconds , <span class="fu">rnorm</span>(<span class="at">n =</span> nrofsubs, <span class="at">mean =</span> <span class="fu">sample</span>(<span class="dv">8</span>,<span class="dv">1</span>)<span class="sc">+</span><span class="dv">10</span> , <span class="at">sd =</span> <span class="fu">sample</span>(<span class="dv">5</span>,<span class="dv">1</span>) ) </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        ) )                                     <span class="co"># create array with measurement values</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>data.long <span class="ot">=</span> <span class="fu">data.frame</span>(subj, condition, score);      <span class="co"># combine arrays into a data.frame</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">"subj"</span>, <span class="st">"condition"</span>,<span class="st">"score"</span>,<span class="st">"nrofconds"</span>,<span class="st">"nrofsubs"</span>)) <span class="co"># delete unnecessary variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<caption>data.long</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">subj</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">condition</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">16.153078</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">8.233524</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">18.935924</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">22</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">17.413522</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">41</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">15.895668</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">42</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">13.543431</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</div>
+<section id="checking-assumptions" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="checking-assumptions"><span class="header-section-number">4.1</span> Checking assumptions</h2>
+<p>Test assumption of normality</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(<span class="at">data =</span> data.long<span class="sc">$</span>score, <span class="at">INDICES =</span> data.long<span class="sc">$</span>condition, <span class="at">FUN =</span> shapiro.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>data.long$condition: A
+
+    Shapiro-Wilk normality test
+
+data:  dd[x, ]
+W = 0.9637, p-value = 0.6201
+
+------------------------------------------------------------ 
+data.long$condition: B
+
+    Shapiro-Wilk normality test
+
+data:  dd[x, ]
+W = 0.92868, p-value = 0.1456
+
+------------------------------------------------------------ 
+data.long$condition: C
+
+    Shapiro-Wilk normality test
+
+data:  dd[x, ]
+W = 0.94927, p-value = 0.3561</code></pre>
+</div>
+</div>
+<p>Test equality of variances</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">y =</span> data.long<span class="sc">$</span>score, <span class="at">group =</span> data.long<span class="sc">$</span>condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value   Pr(&gt;F)   
+group  2  6.6526 0.002531 **
+      57                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="running-the-test" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="running-the-test"><span class="header-section-number">4.2</span> Running the test</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">parametric methods</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Non-parametric methods</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">using <em>ezANOVA()</em></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">using <em>aov_ez()</em> (Recommended by Jonas)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">using <em>aov()</em></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">using <em>lm()</em></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><strong><em>ANOVA</em></strong> using the ezANOVA method</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ezModel <span class="ot">=</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> data.long, <span class="at">dv =</span> score, <span class="at">between =</span> condition, <span class="at">wid =</span> subj)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ezModel<span class="sc">$</span>ANOVA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Effect DFn DFd        F            p p&lt;.05       ges
+1 condition   2  57 28.42547 2.734255e-09     * 0.4993454</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><strong><em>ANOVA</em></strong> using the aov_ez() method 1. First we build the model using the <em>aov_ez()</em> function from the <em>afex</em> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>afexModel <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">data =</span> data.long, <span class="at">id =</span> <span class="st">"subj"</span>, <span class="at">dv =</span> <span class="st">"score"</span>, <span class="at">between =</span> <span class="st">"condition"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>afexModel<span class="sc">$</span>anova_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: score
+          num Df den Df    MSE      F     ges    Pr(&gt;F)    
+condition      2     57 4.9476 28.425 0.49935 2.734e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Next we test the assumption of normality for all the residuals in the model at once:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(afexModel<span class="sc">$</span>lm<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(afexModel<span class="sc">$</span>lm<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  afexModel$lm$residuals
+W = 0.98581, p-value = 0.7121</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(car)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(afexModel<span class="sc">$</span>lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="QuatroTest_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Then we test the assumption of equal variences using Levene’s Test:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(afexModel<span class="sc">$</span>lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value   Pr(&gt;F)   
+group  2  6.6526 0.002531 **
+      57                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p><strong><em>ANOVA</em></strong> using the aov method</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>aovModel <span class="ot">=</span> <span class="fu">aov</span>(<span class="at">formula =</span> score <span class="sc">~</span> condition, <span class="at">data =</span> data.long)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(aovModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+condition    2  281.3  140.64   28.43 2.73e-09 ***
+Residuals   57  282.0    4.95                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p><strong><em>ANOVA</em></strong> using the linear model method</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>lmModel <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> score <span class="sc">~</span> condition, <span class="at">data =</span> data.long)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = score ~ condition, data = data.long)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.9714 -1.1873 -0.1094  1.2109  5.7148 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  11.4195     0.4974  22.960  &lt; 2e-16 ***
+conditionB    5.3034     0.7034   7.540 4.01e-10 ***
+conditionC    2.6232     0.7034   3.729 0.000444 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.224 on 57 degrees of freedom
+Multiple R-squared:  0.4993,    Adjusted R-squared:  0.4818 
+F-statistic: 28.43 on 2 and 57 DF,  p-value: 2.734e-09</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(score<span class="sc">~</span>condition, data.long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  score by condition
+Kruskal-Wallis chi-squared = 28.542, df = 2, p-value = 6.343e-07</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="post-hoc-analysis" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="post-hoc-analysis"><span class="header-section-number">4.3</span> Post-hoc analysis</h2>
+<p>When using the aov method, use the Tukey post-hoc test</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(aovModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = score ~ condition, data = data.long)
+
+$condition
+         diff        lwr        upr     p adj
+B-A  5.303422  3.6107737  6.9960712 0.0000000
+C-A  2.623183  0.9305343  4.3158318 0.0012725
+C-B -2.680239 -4.3728882 -0.9875907 0.0009846</code></pre>
+</div>
+</div>
+<p>When using the linear model method, use pairwise t-test</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(<span class="at">x =</span> data.long<span class="sc">$</span>score, <span class="at">g =</span> data.long<span class="sc">$</span>condition, <span class="at">paired =</span> <span class="cn">FALSE</span>, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  data.long$score and data.long$condition 
+
+  A       B     
+B 1.2e-09 -     
+C 0.0013  0.0010
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
