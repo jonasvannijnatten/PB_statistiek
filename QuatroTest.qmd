@@ -3,6 +3,7 @@ title: "QuatroTest"
 author: "Jonas van Nijnatten"
 format: 
   html:
+    embed-resources: true
     page-layout: full
     toc: true
     toc-location: left
