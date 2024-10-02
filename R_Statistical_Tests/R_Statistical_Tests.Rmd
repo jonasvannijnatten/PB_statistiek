@@ -229,12 +229,11 @@ summary(linearModel)
 ```{r}
 set.seed(01)
 N = 30
-data.long = data.frame(
-  x = 1:N,
-  y = round( 1 / (1 + exp(-.23*(1:N-10)))  +  # logistic function of x
-               rnorm(n = N, mean = 0, sd = .3) # add some noise
-             ) # round it to either 1 or 0
-  )
+x = sort(runif(n = N, min = 0, max = 10))
+y = round(
+  1 / (1 + exp(-.5*x+(max(x)/4) + rnorm(N,0,1.5)))  # logistic function of x + noise
+  ) # round it to either 1 or 0
+data.long = data.frame(x = x, y = y)
 ```
 </details>
 
@@ -245,8 +244,10 @@ glm.fit <- glm(y ~ x, data = data.long, family = binomial('logit'))
 anova(glm.fit, test="Chisq")
 ```
 ```{r}
-plot(data.long$x, data.long$y) # plot the measured data
-lines(formula = glm.fit$fitted.values ~ data.long$x) # plot the fitted model
+ggplot(data.long, aes(x=x, y=y)) + geom_point() +
+  stat_smooth(method="glm", color="blue", se=FALSE, 
+              method.args = list(family=binomial)) +
+  theme_classic()
 ```
 
 ***  
