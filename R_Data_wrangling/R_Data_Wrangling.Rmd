@@ -107,6 +107,52 @@ print(data.bad, digits = 3, print.gap = 5, row.names = TRUE)
 
 \newpage
 
+# Data inlezen  
+
+Verschillende manieren om data in te lezen: 
+
+* *read* functies gebruiken  
+* import tools gebruiken  
+* import tool code laten genereren  
+
+
+
+# Data type controleren  
+
+Mogelijke varianten:  
+
+* numeric  
+* double  
+* integer  
+* character  
+  
+  
+Mogelijke data sets:
+
+* list  
+* data.frame  
+* tbl  
+* vector   
+
+
+
+# Data waardes controleren
+
+Valt alles binnen de verwachte range?
+
+* min  
+* max  
+* verdeling (plot)  
+
+Zijn er missende waardes?
+
+* complete.cases
+* is.na()
+
+
+# Data structuur controleren
+Is het in long vs. wide format?
+
 # Herstructureren van data 
 
 ## Datastructuren: wide vs. long format  

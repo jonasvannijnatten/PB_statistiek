@@ -1498,7 +1498,7 @@ padding: 1em;
 line-height: 20px ; } </style>
 <p>contact: <a href="mailto:J.J.vanNijnatten@uva.nl" class="email">J.J.vanNijnatten@uva.nl</a></p>
 <p>broncode: <a href="https://github.com/jonasvannijnatten/PB_statistiek" class="uri">https://github.com/jonasvannijnatten/PB_statistiek</a></p>
-<p>laatste update: 19-04-2024</p>
+<p>laatste update: 30-08-2024</p>
 <p>Other R manuals for Psychobiology: <a href="https://jonasvannijnatten.github.io/PB_statistiek/" class="uri">https://jonasvannijnatten.github.io/PB_statistiek/</a></p>
 <div style="page-break-after: always;"></div>
 <div id="datasets-aanmaken" class="section level1" number="1">
@@ -1597,11 +1597,68 @@ rownames(data.bad) = NULL          # verwijder rownames</code></pre>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
-<div id="herstructureren-van-data" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Herstructureren van
+<div id="data-inlezen" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data inlezen</h1>
+<p>Verschillende manieren om data in te lezen:</p>
+<ul>
+<li><em>read</em> functies gebruiken<br />
+</li>
+<li>import tools gebruiken<br />
+</li>
+<li>import tool code laten genereren</li>
+</ul>
+</div>
+<div id="data-type-controleren" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data type
+controleren</h1>
+<p>Mogelijke varianten:</p>
+<ul>
+<li>numeric<br />
+</li>
+<li>double<br />
+</li>
+<li>integer<br />
+</li>
+<li>character</li>
+</ul>
+<p>Mogelijke data sets:</p>
+<ul>
+<li>list<br />
+</li>
+<li>data.frame<br />
+</li>
+<li>tbl<br />
+</li>
+<li>vector</li>
+</ul>
+</div>
+<div id="data-waardes-controleren" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Data waardes
+controleren</h1>
+<p>Valt alles binnen de verwachte range?</p>
+<ul>
+<li>min<br />
+</li>
+<li>max<br />
+</li>
+<li>verdeling (plot)</li>
+</ul>
+<p>Zijn er missende waardes?</p>
+<ul>
+<li>complete.cases</li>
+<li>is.na()</li>
+</ul>
+</div>
+<div id="data-structuur-controleren" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Data structuur
+controleren</h1>
+<p>Is het in long vs. wide format?</p>
+</div>
+<div id="herstructureren-van-data" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Herstructureren van
 data</h1>
-<div id="datastructuren-wide-vs.-long-format" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Datastructuren: wide
+<div id="datastructuren-wide-vs.-long-format" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Datastructuren: wide
 vs. long format</h2>
 <p>Wanneer je alle data hebt opgeschoond en gecontroleerd kan het nog
 zijn dat de dataset niet de juiste <em>structuur</em> heeft. Met
@@ -1650,8 +1707,8 @@ de meetwaarde afkomstig is zoals geillustreerd in Fig X.
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
-<div id="van-wide-naar-long" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Van wide naar
+<div id="van-wide-naar-long" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Van wide naar
 long</h2>
 <p>Stel je hebt 4 proefobjecten gemeten in 3 verschillende condities je
 data staan in het WIDE format:</p>
@@ -1688,8 +1745,8 @@ data.long =
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
-<div id="van-long-naar-wide" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Van long naar
+<div id="van-long-naar-wide" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Van long naar
 wide</h2>
 <p>Stel je hebt 4 proefobjecten gemeten in 3 verschillende condities je
 data staan in het LONG format:</p>
@@ -1727,8 +1784,8 @@ names(data.wide)[2:4] = c(&#39;A&#39;,&#39;B&#39;,&#39;C&#39;) # pas de kolomnam
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="data-inspecteren" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Data inspecteren</h1>
+<div id="data-inspecteren" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Data inspecteren</h1>
 <p>In de praktijk van het wetenschappelijk onderzoek zijn de data zoals
 die uit een experiment komen rollen meestal niet geschikt om direct een
 statistische toets op uit te voeren. Vaak moeten ze eerst worden
@@ -1758,8 +1815,8 @@ i.p.v. “1”,“2” (nog beter is om informatieve namen te gebruiken zoals:
 zijn, wat kan verschillen per R functie. met de <em>reshape()</em>
 functie kan je de data binnen R herstructuren.</p>
 <hr />
-<div id="foutieve-data-opsporen" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Foutieve data
+<div id="foutieve-data-opsporen" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Foutieve data
 opsporen</h2>
 <p>Er bestaan vele manieren om ontbrekende en foutieve data op te sporen
 in je dataset. In deze handleiding bespreken we het gebruik van de
@@ -1771,8 +1828,8 @@ complete.cases()</code></pre>
 <p>De functie <em>which()</em> wordt gebruikt in combinatie met de
 andere functies om de positie op te vragen waar bepaalde waardes zich
 bevinden i.p.v. de waardes zelf.</p>
-<div id="ontbrekende-data" class="section level3" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> Ontbrekende
+<div id="ontbrekende-data" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Ontbrekende
 data</h3>
 <p>
 <p><em>is.nan()</em><br />
@@ -1836,8 +1893,8 @@ compleet):</p>
 <pre><code>## [1] 2 4 7</code></pre>
 </p>
 </div>
-<div id="dubbel-ingevoerde-data" class="section level3" number="3.1.2">
-<h3><span class="header-section-number">3.1.2</span> Dubbel ingevoerde
+<div id="dubbel-ingevoerde-data" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Dubbel ingevoerde
 data</h3>
 <p><em>duplicated()</em><br />
 Deze functie controleert of er data dubbel voorkomt in het dataframe.
@@ -1849,8 +1906,8 @@ meerdere keren voorkomt binnen een kolom.</p>
 <a href="#inhoud">inhoud</a>
 </div>
 </div>
-<div id="extreme-of-foutieve-waardes" class="section level3" number="3.1.3">
-<h3><span class="header-section-number">3.1.3</span> Extreme of foutieve
+<div id="extreme-of-foutieve-waardes" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Extreme of foutieve
 waardes</h3>
 <p>Soms komt het voor dat er foutieve waardes in je dataset terecht
 komen, of je wilt een subset van waardes selecteren om mee verder te
@@ -1871,8 +1928,8 @@ genegeerd.</p>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="data-types-controleren" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Data types
+<div id="data-types-controleren" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Data types
 controleren</h2>
 <p>R ken verschillende soorten data types zoals o.a. <em>numeric</em>
 (numerieke waardes) <em>character</em> (tekst), <em>logical</em> (TRUE /
@@ -1920,8 +1977,8 @@ dat het niet gaat om quantitatieve waardes maar om benaming.</p>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="data-opschonen" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Data opschonen</h1>
+<div id="data-opschonen" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Data opschonen</h1>
 <p>Hiervoor hebben we besproken hoe je foutieve en ontbrekende data kunt
 opsporen. De volgende stap is om je dataset op te schonen. Je kunt dit
 op 2 manieren doen: 1) een-voor-een verschillende soorten foutieve data
