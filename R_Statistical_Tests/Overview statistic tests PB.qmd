@@ -6,8 +6,10 @@ author: "Jonas van Nijnatten"
 format: 
   html: 
     page-layout: full
-    max-width: 2000px
-    body-width: 100%
+    grid:
+      body-width: 1500px
+      margin-width: 250px
+      sidebar-width: 150px
     fig-width: 12
     embed-resources: true
     lightbox: true
@@ -15,6 +17,7 @@ format:
     toc-depth: 4
     toc-float: true
     toc-location: right
+
     number-sections: true
     margin-left: 5px
     margin-right: 80px
@@ -45,26 +48,26 @@ header-includes:
 
 
 ```{css, echo=FALSE, eval=FALSE}
-body .main-container{
-  max-width: 2500px;
-  width: 100%;
-  margin: 0;
- padding: 1em;
- line-height: 20px ; 
-}   
+<!-- body .main-container{ -->
+<!--   max-width: 2500px; -->
+<!--   width: 100%; -->
+<!--   margin: 0; -->
+<!--  padding: 1em; -->
+<!--  line-height: 20px ;  -->
+<!-- }    -->
 
-body {
-  max-width: 2500px;
-  width: 100%;
-  margin: 0;
- padding: 1em;
- line-height: 20px ; 
-}   
+<!-- body { -->
+<!--   max-width: 2500px; -->
+<!--   width: 100%; -->
+<!--   margin: 0; -->
+<!--  padding: 1em; -->
+<!--  line-height: 20px ;  -->
+<!-- }    -->
 
-#TOC {
-  max-width: 280px;
-  width: 20%;
-}
+<!-- #TOC { -->
+<!--   max-width: 280px; -->
+<!--   width: 20%; -->
+<!-- } -->
 ```
 contact: J.J.vanNijnatten@uva.nl
 
@@ -317,17 +320,6 @@ kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') 
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
-## Checking assumptions
-
-Test assumption of normality
-```{r}
-by(data = data.long$score, INDICES = data.long$condition, FUN = shapiro.test)
-```
-Test equality of variances
-```{r}
-leveneTest(y = data.long$score, group = data.long$condition)
-```
-
 
 ## Running the test {.tabset .tabset-pills}
 
@@ -338,17 +330,38 @@ leveneTest(y = data.long$score, group = data.long$condition)
 #### using *lm()* (PB recommended) {.active}  
 
 ***ANOVA*** using the linear model method
+
+Fit the model using *lm()*.
 ```{r, message=FALSE}
 lmModel = lm(formula = score ~ condition, data = data.long)
+```
+
+Check the assumptions using *performance::check_model()*
+```{r}
+check_model(lmModel)
+```
+
+
+```{r}
 anova(lmModel)
 
-# for post hoc comparison of conditions
-emmeans::emmeans(lmModel, pairwise~condition)
+# for post hoc comparison of conditions using the emmeans() function from the emmeans package
+emmeans(lmModel, pairwise~condition, )
 ```
 
 
 #### using *ezANOVA()*
 ***ANOVA*** using the ezANOVA method
+
+Test assumption of normality
+```{r}
+by(data = data.long$score, INDICES = data.long$condition, FUN = shapiro.test)
+```
+Test equality of variances
+```{r}
+leveneTest(y = data.long$score, group = data.long$condition)
+```
+
 ```{r, message=FALSE}
 ezModel = ezANOVA(data = data.long, dv = score, between = condition, wid = subj)
 ezModel$ANOVA
@@ -385,6 +398,18 @@ leveneTest(afexModel$lm)
 
 #### using *aov()*
 ***ANOVA*** using the aov method
+
+
+Test assumption of normality
+```{r}
+by(data = data.long$score, INDICES = data.long$condition, FUN = shapiro.test)
+```
+Test equality of variances
+```{r}
+leveneTest(y = data.long$score, group = data.long$condition)
+```
+
+Run the ANOVA and check the results
 ```{r, message=FALSE}
 aovModel = aov(formula = score ~ condition, data = data.long)
 summary(aovModel)
