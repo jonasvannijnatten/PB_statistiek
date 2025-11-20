@@ -626,10 +626,13 @@ hist(afexModel$lm$residuals)
 shapiro.test(afexModel$lm$residuals)
 ```
       
+  4. The *aov_ez()* both calculates the ANOVA results and checks for the assumption of sphericity.  
     
-  3. The *aov_ez()* function automatically corrects the output for sphericity. The degree of the correction depends on the degree of (non)-sphericity. So when the data is perfectly spherical, the correction is zero.
+  The function also automatically calculates two corrected p-values if the data deviate from sphericity; the Greenhouse-Geisser correction and the Huynh-Feldt correction. If the sphericity test is significant, use one of the corrected p-values (rule of thumb: when the Greenhouse-Geisser Epsilon (GG eps) is less than 0.75, use Greenhouse-Geisser correction [*Pr(>F[GG])*], else use the Huynh-Feldt correction [*Pr(>F(HF))*].  
+    
+  The degree of the correction depends on the degree of (non)-sphericity. So when the data is perfectly spherical, the correction is zero.
 ```{r}
-afexModel
+summary(afexModel)
 ```
 ***  
 
@@ -754,6 +757,16 @@ data.wide = data.frame(
   postC=rnorm(n=nrofsubs, mean = 20,sd = 3)
 )
 rm(list="nrofsubs")
+
+# From wide to long
+
+data.long = pivot_longer(
+  data = data.wide, 
+  cols = starts_with("pre") | starts_with("post"), 
+  names_to = c("time","group"),
+  names_pattern = "(pre|post)([A-c])"
+)
+data.long
 ```
 </details>   
 
