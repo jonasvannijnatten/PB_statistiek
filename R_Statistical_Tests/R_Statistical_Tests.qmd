@@ -7,12 +7,12 @@ format:
   html: 
     page-layout: full
     grid:
-      body-width: 1500px
+      body-width: 1000px
       margin-width: 250px
-      sidebar-width: 150px
+      sidebar-width: 250px
     fig-width: 12
     embed-resources: true
-    lightbox: true
+    lightbox: false
     toc: true
     toc-depth: 4
     toc-float: true
@@ -30,6 +30,7 @@ format:
     
 execute: 
   image-width: 1200px
+  cache: true
 knitr: 
   opts_chunk: 
     message: false
@@ -69,14 +70,14 @@ header-includes:
 <!--   width: 20%; -->
 <!-- } -->
 ```
-contact: J.J.vanNijnatten@uva.nl
+contact: <J.J.vanNijnatten@uva.nl>
 
-source code: https://github.com/jonasvannijnatten/PB_statistiek
+source code: <https://github.com/jonasvannijnatten/PB_statistiek>
 
 laatste update: `r format.Date(Sys.Date(), '%d-%m-%Y')`
 
-Other R manuals for Psychobiology: https://jonasvannijnatten.github.io/PB_statistiek/
-
+Other R manuals for Psychobiology: <https://jonasvannijnatten.github.io/PB_statistiek/>  
+  
 ***
 
 \newpage
@@ -332,18 +333,29 @@ kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') 
 ***ANOVA*** using the linear model method
 
 Fit the model using *lm()*.
-```{r, message=FALSE}
+```{r}
+#| label: "lm fit"
+#| message: false
 lmModel = lm(formula = score ~ condition, data = data.long)
 ```
 
 Check the assumptions using *performance::check_model()*
 ```{r}
+#| label: "assumptions check"
 check_model(lmModel)
 ```
 
-
+To get the results of the hypothesis test, use the anova() function
 ```{r}
+#| label: "hypothesis test"
 anova(lmModel)
+```
+
+Post-hoc testing
+When using the linear model method, use pairwise t-test or emmeans() from the emmeans package.
+```{r}
+#| label: "post hoc testing"
+pairwise.t.test(x = data.long$score, g = data.long$condition, paired = FALSE, p.adjust.method = "bonferroni")
 
 # for post hoc comparison of conditions using the emmeans() function from the emmeans package
 emmeans(lmModel, pairwise~condition, )
@@ -415,6 +427,11 @@ aovModel = aov(formula = score ~ condition, data = data.long)
 summary(aovModel)
 ```
 
+When using the aov method, use the Tukey post-hoc test
+```{r}
+TukeyHSD(aovModel)
+```
+
 ::::
 
 
@@ -428,19 +445,6 @@ kruskal.test(score~condition, data.long)
 
 :::
 
-## Post-hoc analysis
-
-When using the aov method, use the Tukey post-hoc test
-```{r}
-TukeyHSD(aovModel)
-```
-
-When using the linear model method, use pairwise t-test
-```{r}
-pairwise.t.test(x = data.long$score, g = data.long$condition, paired = FALSE, p.adjust.method = "bonferroni")
-```
-
-
 
 ***  
 \newpage
@@ -449,6 +453,7 @@ pairwise.t.test(x = data.long$score, g = data.long$condition, paired = FALSE, p.
 
 <details><summary><span style="color:dodgerBlue">Show code for data generation</span></summary>
 ```{r, echo=TRUE}
+#| label: "Factorial independent samples ANOVA"
 set.seed(01)   # set seed
 nrofcondsf1 = 3  # set number of conditions for factor 1
 nrofcondsf2 = 2  # set number of conditions for factor 2
