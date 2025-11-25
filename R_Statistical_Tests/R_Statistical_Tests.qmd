@@ -491,32 +491,42 @@ model = lm(formula = score ~ treatment+control, data = data.long)
 
 ## Checking assumptions
 
-Test assumption of normality
-```{r, eval=FALSE}
-hist(model$residuals)
-plot(x = fitted(model), y = residuals(model), xlab="predicted", ylab="residuals"); abline(h=0)
-by(data = data.long$score, INDICES = paste(data.long$treatment, data.long$control), FUN = shapiro.test)
-```
-<details><summary><span style="color:dodgerBlue">Show residuals histogram</span></summary>
-```{r, echo=FALSE}
-hist(model$residuals)
-```
-</details>
-<details><summary><span style="color:dodgerBlue">Show residuals vs predicted plot</span></summary>
-```{r, echo=FALSE}
-plot(x = fitted(model), y = residuals(model), xlab="predicted", ylab="residuals"); abline(h=0)
-```
-</details>
-<details><summary><span style="color:dodgerBlue">Show output of Shapiro-Wilk test</span></summary>
-```{r, echo=FALSE}
-by(data = data.long$score, INDICES = paste(data.long$treatment, data.long$control), FUN = shapiro.test)
-```
-</details>
+Visually inspect all assumptions using the *check_model()* function from the *performance* package.
 
-Test equality of variances
 ```{r}
-leveneTest(y = data.long$score, group = as.factor(paste(data.long$treatment, data.long$control)))
+#| label: "check assumptions"
+check_model(model)
 ```
+
+
+
+
+<!-- Test assumption of normality -->
+<!-- ```{r, eval=FALSE} -->
+<!-- hist(model$residuals) -->
+<!-- plot(x = fitted(model), y = residuals(model), xlab="predicted", ylab="residuals"); abline(h=0) -->
+<!-- by(data = data.long$score, INDICES = paste(data.long$treatment, data.long$control), FUN = shapiro.test) -->
+<!-- ``` -->
+<!-- <details><summary><span style="color:dodgerBlue">Show residuals histogram</span></summary> -->
+<!-- ```{r, echo=FALSE} -->
+<!-- hist(model$residuals) -->
+<!-- ``` -->
+<!-- </details> -->
+<!-- <details><summary><span style="color:dodgerBlue">Show residuals vs predicted plot</span></summary> -->
+<!-- ```{r, echo=FALSE} -->
+<!-- plot(x = fitted(model), y = residuals(model), xlab="predicted", ylab="residuals"); abline(h=0) -->
+<!-- ``` -->
+<!-- </details> -->
+<!-- <details><summary><span style="color:dodgerBlue">Show output of Shapiro-Wilk test</span></summary> -->
+<!-- ```{r, echo=FALSE} -->
+<!-- by(data = data.long$score, INDICES = paste(data.long$treatment, data.long$control), FUN = shapiro.test) -->
+<!-- ``` -->
+<!-- </details> -->
+
+<!-- Test equality of variances -->
+<!-- ```{r} -->
+<!-- leveneTest(y = data.long$score, group = as.factor(paste(data.long$treatment, data.long$control))) -->
+<!-- ``` -->
 
 ## Running the test
 
@@ -531,9 +541,35 @@ summary(model)
 
 ## Post-hoc analysis
 
+:::{.panel-tabset}
+
+### Using the estimated marginal means (emmeans)
+
+When there are one or more significant main-effects but no significant interaction effect post-hoc comparisons can be made for each factor separately using the emmeans() function.  
+
+#### Post-hoc inspection of the main effect of the factor *treatment*.
+```{r}
+#| label: "Factorial ANOVA post-hoc with emmeans treatment"
+emmeans(model, pairwise ~ treatment)
+```
+
+#### Post-hoc inspection of the main effect of the factor *control*.
+```{r}
+#| label: "Factorial ANOVA post-hoc with emmeans control"
+emmeans(model, pairwise ~ control)
+```
+
+#### Post-hoc inspection of the interaction effect
+```{r}
+#| label: "Factorial ANOVA post-hoc with emmeans interaction"
+emmeans(model, pairwise ~ treatment + control)
+```
+
+### Using pairwise T-tests
+
 When there are one or more significant main-effects but no significant interaction effect post-hoc comparisons can be made for each factor separately using the pairwise.t.test() function.
 
-Post-hoc comparison for the first factor:
+#### Post-hoc comparison for the first factor
 ```{r}
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
@@ -543,7 +579,7 @@ pairwise.t.test(
   )
 ```
 
-Post-hoc comparison for the first factor:
+#### Post-hoc comparison for the second factor
 ```{r}
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
@@ -553,9 +589,8 @@ pairwise.t.test(
   )
 ```
 
+#### Post-hoc comparison for the interaction effect
 When the interaction effect turns out significant, pairwise comparisons can be made between all combinations of conditions.
-
-Post-hoc comparison for the interaction effect:
 ```{r}
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
@@ -565,6 +600,8 @@ pairwise.t.test(
   , p.adjust.method = "bonferroni"  # use bonferroni corrected p-values
   )
 ```
+::: 
+
 
 
 ***  
@@ -606,9 +643,35 @@ kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') 
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
-## Fitting the model {.tabset .tabset-pills}
+## Fitting the model 
 
-### Parametric Test  {.tabset .tabset-pills}
+:::{.panel-tabset}
+
+### Parametric Test  
+
+::::{.panel-tabset}
+
+#### Using *lmer()* from *lmerTest* package {.active}
+First we fit the model using the *lmer()* function:
+```{r}
+#| label: "RM ANOVA lmer"
+model = lmer(
+  formula = score~condition+(1|subj), 
+  data = data.long
+  )
+```
+
+Visually inspect the assumptions using the *check_model()* function.
+```{r}
+#| label: "RM ANOVA check assumptions"
+check_model(model)
+```
+Get the inferential statistics of the model fit
+```{r}
+#| label: "RM ANOVA lemr inferential statistics"
+anova(model)
+```
+
 
 #### Using *ezAONVA*
 
@@ -700,7 +763,7 @@ ezModel$ANOVA
 ```
 ***
 
-#### Using *aov_ez()* (recommended by Jonas) {.active}
+#### Using *aov_ez()*
 
   1. First we fit the model using *aov_ez()*
 ```{r}
@@ -725,38 +788,39 @@ summary(afexModel)
 ```
 ***  
 
-#### Using *lm()*
-fit linear model
-```{r}
-model = lm(formula = cbind(data.wide$A, data.wide$B, data.wide$C)~1)
-```  
+<!-- #### Using *lm()* -->
+<!-- fit linear model -->
+<!-- ```{r} -->
+<!-- model = lm(formula = cbind(data.wide$A, data.wide$B, data.wide$C)~1) -->
+<!-- ```   -->
 
-  1. Checking assumptions
+<!--   1. Checking assumptions -->
 
-Test assumption of normality
-```{r, results='hide', eval=FALSE}
-shapiro.test(model$residuals)
-hist(model$residuals)
-```
+<!-- Test assumption of normality -->
+<!-- ```{r, results='hide', eval=FALSE} -->
+<!-- shapiro.test(model$residuals) -->
+<!-- hist(model$residuals) -->
+<!-- ``` -->
 
-```{r, echo=FALSE}
-shapiro.test(model$residuals)
-hist(model$residuals)
-```
+<!-- ```{r, echo=FALSE} -->
+<!-- shapiro.test(model$residuals) -->
+<!-- hist(model$residuals) -->
+<!-- ``` -->
 
-Test assumption of sphericity
-```{r}
-mauchly.test(model, X=~1)
-```
+<!-- Test assumption of sphericity -->
+<!-- ```{r} -->
+<!-- mauchly.test(model, X=~1) -->
+<!-- ``` -->
 
-  2. Running the test
+<!--   2. Running the test -->
 
-Test the model using ANOVA
-```{r}
-anova(model, X = ~1, test="Spherical")
-```
+<!-- Test the model using ANOVA -->
+<!-- ```{r} -->
+<!-- anova(model, X = ~1, test="Spherical") -->
+<!-- ``` -->
 
 ***  
+::::
 
 ### Non-parametric test
 
@@ -766,12 +830,14 @@ When the assumptions of parametric testing are violated the Friedman ANOVA can b
 FMaov = friedman.test(score~condition|subj, data.long)
 ```
 
-
+:::
   
   
 *** 
-## Post-hoc analysis  {.tabset .tabset-pills}
 
+## Post-hoc analysis
+
+:::{.panel-tabset}
 ### parametric
 For post-hoc analysis the data has to be transformed to the **long format**
 <details><summary><span style="color:dodgerBlue">Show code for reshaping </span></summary>
@@ -787,8 +853,20 @@ data.long = reshape(data = data.wide
                    )
 ```
 </details>
-   
-      
+
+::::{.panel-tabset}
+#### Using emmeans
+Use the estimated marginal means (emmeans) for post-hoc analysis.
+```{r}
+#| label: "RM ANOVA emmeans post-hoc"
+ref.grid = ref_grid(model)
+condition.emm = emmeans(ref.grid, "condition")
+pairs(condition.emm, reverse = FALSE)
+```
+
+
+
+#### Using pairwise T-test
 Use pairwise T-test to compare each combination of conditions
 ```{r}
 pairwise.t.test(
@@ -798,7 +876,7 @@ pairwise.t.test(
   , p.adjust.method = "bonferroni"  # use bonferroni corrected p-values
   )
 ```
-
+::::
 ***  
 
 
@@ -823,7 +901,7 @@ For non-parametric post-hoc test the pairwise Wilcoxon tests can be used as an a
 ```{r}
 pairwise.wilcox.test(x = data.long$score, g =data.long$condition, paired = TRUE)
 ```
-
+:::
    
 ***  
 
@@ -853,7 +931,8 @@ data.long = pivot_longer(
   data = data.wide, 
   cols = starts_with("pre") | starts_with("post"), 
   names_to = c("time","group"),
-  names_pattern = "(pre|post)([A-c])"
+  names_pattern = "(pre|post)([A-c])", 
+  values_to = "score"
 )
 data.long
 ```
@@ -863,82 +942,115 @@ data.long
 ```{r,echo=FALSE}
 kable(data.wide[1:4,], row.names = FALSE, caption = 'data.wide') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+
+kable(data.long[c(1,2,7,8,13,14,19,20,25,26),], row.names = FALSE, caption = 'data.long') %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
 ## Fitting the model
 
-Fit linear model to the data, not yet seperating both independent factors:
+Fit the model using *lmer()* from the *lmerTest* package.
 ```{r}
-model = lm(cbind(data.wide$preA,
-                 data.wide$preB,
-                 data.wide$preC,
-                 data.wide$postA,
-                 data.wide$postB,
-                 data.wide$postC
-                 )~1
-           )
-```
-Make a factor matrix clarifying the conditions. Name the colomns as the factors.
-Use the parts of the column names of the data.frame in the wide format as variable values in the matrix.
-```{r}
-factorMatrix = data.frame(
-  time=as.factor(rep(c("pre","post"),each=3)),
-  condition = as.factor(rep(c("A","B","C"),2))
-)
-```
-fit linear model specifying the two independent variables using the factorMatrix
-```{r}
-library(car)
-factorialAnova = Anova(mod=model, idata=factorMatrix, idesign= ~time*condition, type='III')
+model = lmerTest::lmer(score~time*group+(1|ID), data.long)
 ```
 
-## Checking assumptions
-```{r, eval=FALSE  , results='hide'}
-shapiro.test(model$residuals)
-hist(model$residuals)
+## Checking assumptions using *check_model()*
+```{r}
+check_model(model)
 ```
 
-```{r, echo=FALSE}
-shapiro.test(model$residuals)
-hist(model$residuals)
-```
+
+
+<!-- Fit linear model to the data, not yet seperating both independent factors: -->
+<!-- ```{r} -->
+<!-- model = lm(cbind(data.wide$preA, -->
+<!--                  data.wide$preB, -->
+<!--                  data.wide$preC, -->
+<!--                  data.wide$postA, -->
+<!--                  data.wide$postB, -->
+<!--                  data.wide$postC -->
+<!--                  )~1 -->
+<!--            ) -->
+<!-- ``` -->
+<!-- Make a factor matrix clarifying the conditions. Name the colomns as the factors. -->
+<!-- Use the parts of the column names of the data.frame in the wide format as variable values in the matrix. -->
+<!-- ```{r} -->
+<!-- factorMatrix = data.frame( -->
+<!--   time=as.factor(rep(c("pre","post"),each=3)), -->
+<!--   condition = as.factor(rep(c("A","B","C"),2)) -->
+<!-- ) -->
+<!-- ``` -->
+<!-- fit linear model specifying the two independent variables using the factorMatrix -->
+<!-- ```{r} -->
+<!-- library(car) -->
+<!-- factorialAnova = Anova(mod=model, idata=factorMatrix, idesign= ~time*condition, type='III') -->
+<!-- ``` -->
+
+<!-- ## Checking assumptions -->
+<!-- ```{r, eval=FALSE  , results='hide'} -->
+<!-- shapiro.test(model$residuals) -->
+<!-- hist(model$residuals) -->
+<!-- ``` -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- shapiro.test(model$residuals) -->
+<!-- hist(model$residuals) -->
+<!-- ``` -->
 
 
 ## Running the test
-run the factorial ANOVA 
+Get the inferential statistics using *anova()*
 ```{r}
-summary(object = factorialAnova, multivariate=FALSE)
+#| label: "Factorial RM ANOVA inferential"
+anova(model)
 ```
 
-The Mauchly Test checks each factor on the assumption of sphericity.
-If the Mauchly Test shows a significant result for any of the factors or interaction between factors then a corrected p=value should be used instead of the normal, uncorrected p-value. 
+
+<!-- run the factorial ANOVA  -->
+<!-- ```{r} -->
+<!-- summary(object = factorialAnova, multivariate=FALSE) -->
+<!-- ``` -->
+
+<!-- The Mauchly Test checks each factor on the assumption of sphericity. -->
+<!-- If the Mauchly Test shows a significant result for any of the factors or interaction between factors then a corrected p=value should be used instead of the normal, uncorrected p-value.  -->
 
 ## Post-hoc analysis
 
-For post-hoc analysis the data has to be transformed to the **long format**
-<details><summary><span style="color:dodgerBlue">Show code for reshaping </span></summary>
-```{r, results='hide'}
-# reshape into wide format
-data.mix = reshape(data = data.wide
-                   , direction = 'long'
-                   , varying = list(c('preA','preB','preC'),c('postA','postB','postC'))
-                   , timevar = 'treatment'
-                   , times = c("A","B","C")
-                   , v.names = c("pre","post")
-                   , idvar = "ID"
-                   )
-data.long = reshape(data = data.mix
-                   , direction = 'long'
-                   , varying = c("pre","post")
-                   , timevar = 'pre_post'
-                   , times = c("pre","post")
-                   , v.names = "score"
-                   , idvar = c("ID", "treatment")
-                   )
-```
-</details>
+:::{.panel-tabset}
+### Emmeans
+When there are one or more significant main-effects but no significant interaction effect, post-hoc comparisons can be made for each factor separately.
 
-When there are one or more significant main-effects but no significant interaction effect post-hoc comparisons can be made for each factor separately using the pairwise.t.test() function.
+#### Post-hoc comparison for the first factor:
+```{r}
+ref.grid = ref_grid(model)
+group.emm = emmeans(ref.grid, "group")
+pairs(group.emm, reverse = FALSE)
+```
+
+#### Post-hoc comparison for the second factor:
+```{r}
+ref.grid = ref_grid(model)
+time.emm = emmeans(ref.grid, "time")
+pairs(time.emm, reverse = FALSE)
+```
+
+#### Post-hoc comparison for interaction
+When the interaction effect turns out significant, pairwise comparisons can be made between all combinations of conditions.
+```{r}
+ref.grid = ref_grid(model)
+time.emm = emmeans(ref.grid, "time")
+pairs(time.emm, reverse = FALSE)
+```
+Complete pairwise comparison in case of an interaction
+```{r}
+#| label: "Facorial RM ANOVA post-hoc emmeans"
+emmeans(object = model, specs = ~group*time)
+```
+
+
+
+### Pairwise T-tests
+When there are one or more significant main-effects but no significant interaction effect, post-hoc comparisons can be made for each factor separately using the pairwise.t.test() function.
 
 Post-hoc comparison for the first factor:
 ```{r}
@@ -973,6 +1085,7 @@ pairwise.t.test(
   )
 ```
 
+:::
 ***  
 
 \newpage
