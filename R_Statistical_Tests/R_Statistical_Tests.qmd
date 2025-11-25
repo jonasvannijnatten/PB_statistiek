@@ -101,8 +101,12 @@ Install & activate the required packages:
 reqPacks = c("markdown","knitr","kableExtra","car","ez","afex", "ggplot2", "gridExtra","lmerTest","interactions","tidyverse", "performance","emmeans")
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(reqPacks, character.only = TRUE)
-print("Required packages")
-print(cbind(reqPacks))
+```
+
+```{r}
+#| label: "print packages"
+#| echo: false
+cat(reqPacks, sep="\n")
 ```
 
 ***
