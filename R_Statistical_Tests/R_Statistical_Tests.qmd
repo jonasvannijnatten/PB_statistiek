@@ -4,7 +4,7 @@ author: "Jonas van Nijnatten"
 
 
 format: 
-  html: 
+  html:
     page-layout: full
     grid:
       body-width: 1000px
@@ -17,7 +17,6 @@ format:
     toc-depth: 4
     toc-float: true
     toc-location: right
-
     number-sections: true
     margin-left: 5px
     margin-right: 80px
@@ -98,7 +97,8 @@ Install & activate the required packages:
 #| results: hide
 #| message: false
 #| warning: false
-reqPacks = c("markdown","knitr","kableExtra","car","ez","afex", "ggplot2", "gridExtra","lmerTest","interactions","tidyverse", "performance","emmeans")
+reqPacks = c("markdown","knitr","kableExtra","car","ez","afex", "ggplot2", "gridExtra","lmerTest","interactions","tidyverse", "performance","emmeans",
+             "lmeresampler")
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(reqPacks, character.only = TRUE)
 ```
@@ -132,7 +132,8 @@ data.long = data.frame(
 ```{r}
 #| label: "show table"
 #| echo: false
-kable(data.long[c(1:5,41:45),], row.names = FALSE, caption = 'data.long') %>%
+#| tbl-cap: 'data.long'
+kable(data.long[c(1:5,41:45),], row.names = FALSE) %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
@@ -164,7 +165,8 @@ data.long = data.frame(
 </details>
 
 ```{r,echo=FALSE}
-kable(data.long[c(1:5,31:35),], row.names = FALSE, caption = 'data.long') %>%
+#| tbl-cap: "data.long"
+kable(data.long[c(1:5,31:35),], row.names = FALSE) %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
@@ -242,7 +244,8 @@ rm(list = c("nrobs", "experience", "salary"))
 ```{r}
 #| label: "show data table"
 #| echo: false
-kable(data.long[1:5,], row.names = FALSE, caption = 'data.long') %>%
+#| tbl-cap: "data.long"
+kable(data.long[1:5,], row.names = FALSE) %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
@@ -321,7 +324,8 @@ rm(list=c("subj", "condition","score","nrofconds","nrofsubs")) # delete unnecess
 ```{r}
 #| label: "show data"
 #| echo: false
-kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE, caption = 'data.long') %>%
+#| tbl-cap: "data.long"
+kable(data.long[c(1:2,21:22,41:42),], row.names = FALSE) %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
@@ -481,7 +485,10 @@ rm(list=c("control","nrofcondsf1","nrofcondsf2","nrofsubs","score","subj","treat
 ```   
 </details>     
 
-```{r,echo=FALSE}
+```{r}
+#| label: "Fact. Ind. ANOVA data table"
+#| echo: false
+#| tbl-cap: "data.long"
 kable(data.long[c(1:2,61:62,121:122),], row.names = FALSE, caption = 'data.long') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
@@ -944,9 +951,13 @@ data.long
 
 
 ```{r,echo=FALSE}
+#| tbl-cap: "data.wide"
 kable(data.wide[1:4,], row.names = FALSE, caption = 'data.wide') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
 
+```{r}
+#| tbl-cap: "data.long"
 kable(data.long[c(1,2,7,8,13,14,19,20,25,26),], row.names = FALSE, caption = 'data.long') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
@@ -1139,7 +1150,9 @@ data.long = data.frame(subj, score, treatment, gender);
 ```   
 </details>     
 
-```{r,echo=FALSE}
+```{r}
+#| tbl-cap: "data.long"
+#| echo: false
 kable(data.long[c(1:2,61:62,121:122),], row.names = FALSE, caption = 'data.long') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
