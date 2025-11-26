@@ -12,7 +12,7 @@ format:
       sidebar-width: 250px
     fig-width: 12
     embed-resources: true
-    lightbox: false
+    lightbox: true
     toc: true
     toc-depth: 4
     toc-float: true
@@ -41,9 +41,9 @@ knitr:
 pdf-engine-opts:
   - '-latex-auto-install= true'
  
-header-includes:
-- \usepackage{geometry}
-- \geometry{a4paper, portrait, margin=.75in}
+# header-includes:
+# - \usepackage{geometry}
+# - \geometry{a4paper, portrait, margin=.75in}
 ---
 
 
@@ -958,7 +958,8 @@ Fit the model using *lmer()* from the *lmerTest* package.
 model = lmerTest::lmer(score~time*group+(1|ID), data.long)
 ```
 
-## Checking assumptions using *check_model()*
+## Checking assumptions 
+Use *check_model()* from the *preformance* package.
 ```{r}
 check_model(model)
 ```
@@ -1024,34 +1025,39 @@ anova(model)
 ### Emmeans
 When there are one or more significant main-effects but no significant interaction effect, post-hoc comparisons can be made for each factor separately.
 
-#### Post-hoc comparison for the first factor:
+#### Post-hoc comparison for the first factor
+Use the *emmeans()* function, providing the model as first input argument.
+The second input argument is a formula telling the function to do a pairwise comparison of the different levels of the factor "group" (levels: A, B and C).
+The resulting output gives:  
+1) the estimated means per group level  
+2) the pairwise differences and corresponding t-value, degrees of freedom and p-value.
 ```{r}
-ref.grid = ref_grid(model)
-group.emm = emmeans(ref.grid, "group")
-pairs(group.emm, reverse = FALSE)
+emmeans(object = model, specs = pairwise ~ group)
 ```
 
 #### Post-hoc comparison for the second factor:
 ```{r}
-ref.grid = ref_grid(model)
-time.emm = emmeans(ref.grid, "time")
-pairs(time.emm, reverse = FALSE)
+emmeans(object = model, specs = pairwise ~ time)
 ```
 
 #### Post-hoc comparison for interaction
-When the interaction effect turns out significant, pairwise comparisons can be made between all combinations of conditions.
+When the interaction effect turns out significant, pairwise comparisons can be made between combinations of the factors. One option is a pairwise comparison of all combinations. This is done by using the fomrula "pairwise ~ group * time" as the second input argument.
 ```{r}
-ref.grid = ref_grid(model)
-time.emm = emmeans(ref.grid, "time")
-pairs(time.emm, reverse = FALSE)
+emmeans(model, pairwise ~ group*time)
 ```
-Complete pairwise comparison in case of an interaction
+
+However, usually not all comparisons are equally interesting/useful.
+So another option is to compare between levels of factor 1, within different levels of factor 2. 
+This can be done by providing a simple formula for the first factor ("pairwise ~ time") and adding a third input argument *by* for the second factor (in this example "group").
 ```{r}
 #| label: "Facorial RM ANOVA post-hoc emmeans"
-emmeans(object = model, specs = ~group*time)
+emmeans(object = model, specs = pairwise~time, by="group")
 ```
-
-
+This compares the "pre" and "post" levels within each level of "group" (A, B and C).
+The other way around we can also compare the three levels of "group" within each other per level of "time" using the following code: (Note: by adding $contrasts after the function call we only get the statistical comparisons, and not the means per condition, as they are the same as in the previous call)
+```{r}
+emmeans(object = model, specs = pairwise~group, by="time")$contrasts
+```
 
 ### Pairwise T-tests
 When there are one or more significant main-effects but no significant interaction effect, post-hoc comparisons can be made for each factor separately using the pairwise.t.test() function.
@@ -1090,6 +1096,18 @@ pairwise.t.test(
 ```
 
 :::
+
+
+## Visualisation
+```{r}
+cat_plot(model = model, 
+         pred = time, 
+         modx = group, 
+         interval = TRUE, 
+         plot.points = TRUE, 
+         jitter = 0.2)
+```
+
 ***  
 
 \newpage
@@ -1111,12 +1129,12 @@ gender   = as.factor(rep(c("men","women"),times=nrofsubs*nrofcondsf1))
 score = as.vector( replicate(nrofcondsf1, replicate ( 
           nrofcondsf2 , rnorm(
             n = (nrofsubs), 
-            mean = 0 , sd = sample(5,1) ) + sample(8,1)+10
+            mean = 0 , sd = sample(3,1)+2 ) + sample(8,1)+10
         ) ) )                             
 # combine arrays into a data.frame
 data.long = data.frame(subj, score, treatment, gender);      
 # delete unnecessary arrays
-rm(list=c("gender","nrofcondsf1","nrofcondsf2","nrofsubs","score","subj","treatment"))
+# rm(list=c("gender","nrofcondsf1","nrofcondsf2","nrofsubs","score","subj","treatment"))
 
 ```   
 </details>     
@@ -1126,8 +1144,46 @@ kable(data.long[c(1:2,61:62,121:122),], row.names = FALSE, caption = 'data.long'
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
-## Fitting the model
+:::{.panel-tabset}
+## Using *lmer()* (PB recommended) {.active}
 
+### Fitting the model
+Here we use the same code as with a factorial repeated measures ANOVA to fit the model:
+```{r}
+model = lmerTest::lmer(
+  formula = score~treatment*gender + (1|subj), 
+  data = data.long)
+```
+
+### Checking assumptions
+Then we can inspect the assumptions of the model:
+```{r}
+check_model(model)
+```
+### Running the test
+Then we can get the inferential statistics on both main effects and the interaction effect.
+```{r}
+anova(model)
+```
+### Post-hoc analysis
+When there are significant main effects but no significant interaction effect we can inspect the post-hoc comparisons within each factor:
+```{r}
+
+emmeans(object = model, specs = pairwise~treatment)
+
+emmeans(object = model, specs = pairwise~gender)
+```
+
+When there is a significant interaction effect it is more relevant to inspect the combinations of factors: 
+```{r}
+emmeans(object=model, specs=pairwise~treatment, by="gender")
+emmeans(object=model, specs=pairwise~gender, by="treatment")$contrasts
+```
+
+
+
+
+## Using *ezANOVA()*
 Fit mixed-model using ezANOVA() function
 ```{r}
 mix.model = ezANOVA(data = data.long      # name of the data frame (long format)
@@ -1139,7 +1195,7 @@ mix.model = ezANOVA(data = data.long      # name of the data frame (long format)
                     )
 ```
 
-## Checking assumptions
+### Checking assumptions
 
 Test assumption of normality of the residuals
 ```{r, echo=TRUE, eval=FALSE, results='hide'}
@@ -1159,7 +1215,7 @@ Test assumption of sphericity
 mix.model$`Mauchly's Test for Sphericity`
 ```
 
-## Running the test
+### Running the test
 If the assumption of sphericity is met use the normal, uncorrected ANOVA output
 ```{r}
 mix.model$ANOVA
@@ -1171,7 +1227,7 @@ If the assumption of sphericity is violated, use the corrected ANOVA output
 mix.model$`Sphericity Corrections`
 ```
 
-## Post-hoc analysis
+### Post-hoc analysis
 
 When there are one or more significant main-effects but no significant interaction effect post-hoc comparisons can be made using the pairwise.t.test() function.
 
@@ -1195,5 +1251,16 @@ pairwise.t.test(
 )
 ```
 
-When the interaction-effect turns out significant, pairwise comparisons within each factor are not very informative about what the interaction looks like. Pairwise comparisons between all combinations of conditions is inappropriate when dealing with mixed designs. The best way to interpret an interaction effect is by looking at the interaction pattern in the data using descriptive statistics and visualization.
+When the interaction-effect turns out significant, pairwise comparisons within each factor are not very informative about what the interaction looks like. Pairwise t-tests between all combinations of conditions is inappropriate when dealing with mixed designs. The best way to interpret an interaction effect is by looking at the interaction pattern in the data using descriptive statistics and visualization.
+:::
+
+## Visualisation
+```{r}
+cat_plot(model = model, 
+              pred = treatment, 
+              modx = gender, 
+              plot.points = TRUE, 
+              interval = TRUE, 
+              jitter = 0.2)
+```
 
