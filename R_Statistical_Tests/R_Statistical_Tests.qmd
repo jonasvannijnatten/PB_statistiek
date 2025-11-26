@@ -12,7 +12,7 @@ format:
       sidebar-width: 250px
     fig-width: 12
     embed-resources: true
-    lightbox: true
+    lightbox: false
     toc: true
     toc-depth: 4
     toc-float: true
@@ -38,8 +38,8 @@ knitr:
     fig-show: hold
     results: hold    
     
-pdf-engine-opts:
-  - '-latex-auto-install= true'
+# pdf-engine-opts:
+#   - '-latex-auto-install= true'
  
 # header-includes:
 # - \usepackage{geometry}
