@@ -29,7 +29,7 @@ format:
     
 execute: 
   image-width: 1200px
-  cache: true
+  cache: false
 knitr: 
   opts_chunk: 
     message: false
