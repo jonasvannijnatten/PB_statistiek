@@ -613,6 +613,19 @@ pairwise.t.test(
 ```
 ::: 
 
+## Visualisation
+
+```{r}
+#| label: "Factorial ANOVA visualization"
+cat_plot(model = model,   # which model to plot
+         pred = treatment,  # variable to plot on the x-axis
+         modx = control,    # categorical variable for which to plot seperate colors
+         interval = TRUE,  # logical whether to display a confidence interval
+         plot.points = TRUE, # logical whether to plot individual data points
+         jitter = 0.2) # add jitter (prevents overlapping data point in plot)
+```
+
+
 
 
 ***  
@@ -921,7 +934,9 @@ pairwise.wilcox.test(x = data.long$score, g =data.long$condition, paired = TRUE)
 #  Factorial repeated measures ANOVA
 
 <details><summary><span style="color:dodgerBlue">Show code for data generation </span></summary>
-```{r, echo=TRUE}
+```{r}
+#| label: "Factorial RM ANOVA generate dataset"
+#| echo: true 
 set.seed(02)  # set seed
 nrofsubs    = 20 # set number of subjects 
 
@@ -950,13 +965,17 @@ data.long
 </details>   
 
 
-```{r,echo=FALSE}
+```{r}
+#| label: "Factorial RM ANOVA show data.wide"
+#| echo: false
 #| tbl-cap: "data.wide"
 kable(data.wide[1:4,], row.names = FALSE, caption = 'data.wide') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
 ```{r}
+#| label: "Factorial RM ANOVA show data.long"
+#| echo: false
 #| tbl-cap: "data.long"
 kable(data.long[c(1,2,7,8,13,14,19,20,25,26),], row.names = FALSE, caption = 'data.long') %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
@@ -966,12 +985,14 @@ kable(data.long[c(1,2,7,8,13,14,19,20,25,26),], row.names = FALSE, caption = 'da
 
 Fit the model using *lmer()* from the *lmerTest* package.
 ```{r}
+#| label: "Factorial RM ANOVA fit model"
 model = lmerTest::lmer(score~time*group+(1|ID), data.long)
 ```
 
 ## Checking assumptions 
 Use *check_model()* from the *preformance* package.
 ```{r}
+#| label: "Factorial RM ANOVA check assumptions"
 check_model(model)
 ```
 
@@ -1043,17 +1064,20 @@ The resulting output gives:
 1) the estimated means per group level  
 2) the pairwise differences and corresponding t-value, degrees of freedom and p-value.
 ```{r}
+#| label: "Factorial RM ANOVA post-hoc main effect 1"
 emmeans(object = model, specs = pairwise ~ group)
 ```
 
 #### Post-hoc comparison for the second factor:
 ```{r}
+#| label: "Factorial RM ANOVA main effect 2"
 emmeans(object = model, specs = pairwise ~ time)
 ```
 
 #### Post-hoc comparison for interaction
 When the interaction effect turns out significant, pairwise comparisons can be made between combinations of the factors. One option is a pairwise comparison of all combinations. This is done by using the fomrula "pairwise ~ group * time" as the second input argument.
 ```{r}
+#| label: "Factorial RM ANOVA interaction"
 emmeans(model, pairwise ~ group*time)
 ```
 
@@ -1067,6 +1091,7 @@ emmeans(object = model, specs = pairwise~time, by="group")
 This compares the "pre" and "post" levels within each level of "group" (A, B and C).
 The other way around we can also compare the three levels of "group" within each other per level of "time" using the following code: (Note: by adding $contrasts after the function call we only get the statistical comparisons, and not the means per condition, as they are the same as in the previous call)
 ```{r}
+#| label: "Factorial RM ANOVA interaction subset"
 emmeans(object = model, specs = pairwise~group, by="time")$contrasts
 ```
 
@@ -1075,6 +1100,7 @@ When there are one or more significant main-effects but no significant interacti
 
 Post-hoc comparison for the first factor:
 ```{r}
+#| label: "Factorial RM ANOVA post-hoc pairwise T-test main effect 1"
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
   ,g = data.long$treatment          # column name of the first within-subjects variable
@@ -1085,6 +1111,7 @@ pairwise.t.test(
 
 Post-hoc comparison for the first factor:
 ```{r}
+#| label: "Factorial RM ANOVA post-hoc pairwise T-test main effect 2"
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
   ,g = data.long$pre_post           # column name of the second within-subjects variable
@@ -1097,6 +1124,7 @@ When the interaction effect turns out significant, pairwise comparisons can be m
 
 Post-hoc comparison for the interaction effect:
 ```{r}
+#| label: "Factorial RM ANOVA post-hoc t-test interaction effect"
 pairwise.t.test(
   x = data.long$score               # column name of the dependent variable
   # merge both factor columns into a combined factor
@@ -1111,6 +1139,7 @@ pairwise.t.test(
 
 ## Visualisation
 ```{r}
+#| label: "Factorial RM ANOVA visualization"
 cat_plot(model = model, 
          pred = time, 
          modx = group, 
