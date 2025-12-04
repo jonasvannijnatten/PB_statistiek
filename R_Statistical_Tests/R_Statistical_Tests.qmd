@@ -81,16 +81,6 @@ Other R manuals for Psychobiology: <https://jonasvannijnatten.github.io/PB_stati
 
 \newpage
 
-#   R and package versions
-## Versions  
-software versions used for this tutorial:  
- - `r R.Version()$version.string`   
- - car-package version: `r packageVersion("car")` (`r packageDate("car")`)  
- - lmerTest-package version: `r packageVersion("lmerTest")` (`r packageDate("lmerTest")`)
- - ez-package version:  `r packageVersion("ez")` (`r packageDate("ez")`)
- 
-##  Installation
-Install & activate the required packages:
 ```{r}
 #| label: "package installation"
 #| echo: false
@@ -103,11 +93,22 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(reqPacks, character.only = TRUE)
 ```
 
+#   R and package versions
+## Versions  
+software versions used for this tutorial:  
 ```{r}
-#| label: "print packages"
+#| label: "list packages & versions"
 #| echo: false
-cat(reqPacks, sep="\n")
+df = data.frame(package = "R", version=substr(R.version.string,11,str_length(R.version.string)))
+
+for (x in 1:length(reqPacks)) {
+  df[x+1,1] = reqPacks[x]
+  df[x+1,2] = as.character(packageVersion(reqPacks[x]))
+}
+kable(df[-length(df),], row.names = FALSE) %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
+
 
 ***
 
