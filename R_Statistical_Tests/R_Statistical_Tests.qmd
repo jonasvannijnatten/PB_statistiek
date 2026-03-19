@@ -162,16 +162,20 @@ data.long = data.frame(
   condition = rep(x = c("A","B"), each = N),
   score = c(rnorm(n = N, mean = 25, sd = 6.5), rnorm(n = N, mean = 35, sd = 6.5))
 )
+data.wide = pivot_wider(data.long, id_cols = ID, names_from = condition, values_from = score)
 ```
 </details>
 
+
+:::{.panel-tabset}
+### t.test method
 ```{r,echo=FALSE}
-#| tbl-cap: "data.long"
-kable(data.long[c(1:5,31:35),], row.names = FALSE) %>%
+#| tbl-cap: "data.wide"
+kable(data.wide[1:10,], row.names = FALSE) %>%
     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
 ```
 
-Test assumption of normality
+**Test assumption of normality**
 ```{r}
 # calculate difference scores
 diffScore = data.long$score[data.long$condition=="A"] - data.long$score[data.long$condition=="B"]
@@ -180,9 +184,32 @@ shapiro.test(diffScore)
 
 **T-test**
 ```{r}
-t.test(formula = score ~ 1, data = data.long, alternative="two.sided", var.equal=TRUE)
-lmer(formula = score ~ condition+(1|ID), data = data.long)
+t.test(data.wide$A, data.wide$B, alternative = "two.sided", paired = TRUE)
 ```
+
+### lmer method
+```{r,echo=FALSE}
+#| tbl-cap: "data.long"
+kable(data.long[c(1:5,31:35),], row.names = FALSE) %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
+```
+
+
+**Fit the model**
+```{r}
+model = lmer(formula = score ~ condition+(1|ID), data = data.long)
+```
+
+**Check the assumptions**
+```{r}
+check_model(model)
+```
+
+**Test the model**
+```{r}
+summary(model)$coefficients
+```
+:::
 
 ***
 \newpage
